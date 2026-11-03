@@ -80,14 +80,14 @@ button{font:inherit;color:inherit}
 .arena{position:relative;min-height:0}
 .walker{
   position:absolute;left:50%;bottom:2%;
-  width:min(54vw,270px,calc((100vh - 250px) / 2.15));
+  width:min(56vw,280px,46vh);
   transform-origin:50% 100%;
-  transform:translateX(-50%) scale(.56);
-  filter:brightness(.6);
+  transform:translateX(-50%) scale(.68);
+  filter:brightness(.65);
 }
 .walker.go{animation:approach 14s linear forwards}
 @keyframes approach{
-  from{transform:translateX(-50%) scale(.56);filter:brightness(.6)}
+  from{transform:translateX(-50%) scale(.68);filter:brightness(.65)}
   to{transform:translateX(-50%) scale(1.32);filter:brightness(1.05)}
 }
 .zombie{display:block;width:100%;padding:0;border:0;background:none;cursor:crosshair;touch-action:manipulation}
@@ -194,7 +194,7 @@ ul.list li::before{content:"";position:absolute;left:0;top:.68em;width:10px;heig
 .counter b{color:var(--tape);font-weight:400;font-variant-numeric:tabular-nums}
 
 /* Компьютер: две колонки */
-@media (min-width:960px){
+@media (min-width:800px){
   body{background:radial-gradient(ellipse 60% 50% at 25% -10%,rgba(236,228,210,.10),transparent 70%) fixed,var(--night)}
   .invite{
     max-width:1200px;
@@ -204,12 +204,12 @@ ul.list li::before{content:"";position:absolute;left:0;top:.68em;width:10px;heig
   }
   .col-left{position:sticky;top:48px;gap:36px}
   .col-right{gap:56px;padding-top:12px}
-  .hero h1{font-size:clamp(84px,8vw,124px)}
+  .hero h1{font-size:clamp(60px,6.6vw,120px)}
   .hero .lead{font-size:24px}
   .pass .big{font-size:24px}
   .tape{margin:0 -16px}
 }
-@media (min-width:960px) and (max-height:760px){
+@media (min-width:800px) and (max-height:700px){
   .col-left{position:static}
 }
 
