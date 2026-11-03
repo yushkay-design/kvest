@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Жду тебя на квесте 7 ноября в 19:20">
+<meta property="og:title" content="Ходячие мертвецы">
+<meta property="og:description" content="Жду тебя на квесте 7 ноября в 19:20. Сначала разберись с зомби">
+<meta property="og:type" content="website">
+<style>*,*::before,*::after{box-sizing:border-box}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Ходячие мертвецы, 7 ноября</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;700&family=PT+Mono&family=Rubik+Wet+Paint&display=swap">
+</head><body>
+<style>
+/* Layout: one-screen "КПП" scene with a zombie to fight, then a single-column invitation styled like a quest pass with caution tape. Deliberately dark-only. */
+:root{
+  --night:#14110f;
+  --night-2:#1f1a16;
+  --bone:#ece4d2;
+  --bone-dim:#b5ab97;
+  --blood:#cf3a2f;
+  --tape:#e6b422;
+  --tape-ink:#1a1408;
+  --skin:#9bab7f;
+  --skin-dark:#6c7b56;
+  --shirt:#5b4a6b;
+  --pants:#2f3542;
+  --hair:#2b241f;
+  --mouth:#2a0f0f;
+  --line:rgba(236,228,210,.14);
+  --f-display:"Rubik Wet Paint","Impact","Arial Black",sans-serif;
+  --f-body:"Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"PT Mono",ui-monospace,"Courier New",monospace;
+  color-scheme:dark;
+}
+html,body{height:100%}
+body{background:var(--night);color:var(--bone);font-family:var(--f-body);font-size:17px;line-height:1.55;-webkit-tap-highlight-color:transparent}
+body.locked{overflow:hidden}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--tape);outline-offset:3px}
+
+/* ---------- Сцена с зомби ---------- */
+.stage{
+  position:fixed;inset:0;z-index:5;
+  display:grid;grid-template-rows:auto 1fr auto;
+  padding-top:calc(env(safe-area-inset-top,0px) + 20px);
+  padding-bottom:calc(env(safe-area-inset-bottom,0px) + 16px);
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  background:
+    radial-gradient(ellipse 70% 45% at 50% -8%,rgba(236,228,210,.20),transparent 70%),
+    linear-gradient(to bottom,transparent 62%,#0c0a09 62%,#0c0a09),
+    var(--night);
+  overflow:hidden;text-align:center;
+}
+.stage::before{ /* мигающая лампа */
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 40% at 50% 0,rgba(236,228,210,.12),transparent 70%);
+  animation:flicker 4.5s steps(1) infinite;
+}
+.stage::after{ /* укус */
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:0;
+  background:radial-gradient(ellipse at center,transparent 35%,rgba(207,58,47,.75));
+  transition:opacity .4s;
+}
+.stage.bitten::after{opacity:1}
+@keyframes flicker{0%,100%{opacity:1}47%{opacity:.2}48%{opacity:1}50%{opacity:.3}51%{opacity:1}83%{opacity:.5}84%{opacity:1}}
+
+.stage-head{position:relative;z-index:2;display:grid;gap:6px;justify-items:center}
+.tag{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--bone-dim)}
+.stage h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:clamp(30px,8vw,46px);line-height:1.05;color:var(--bone);text-wrap:balance}
+.stage p{margin:0;color:var(--bone-dim);max-width:30ch}
+.hp{display:flex;gap:6px;margin-top:8px}
+.hp span{width:22px;height:8px;border-radius:2px;background:var(--blood);transition:background .2s,transform .2s}
+.hp span.gone{background:var(--line);transform:scaleY(.6)}
+
+.arena{position:relative;min-height:0}
+.walker{
+  position:absolute;left:50%;bottom:2%;
+  width:min(54vw,270px,calc((100vh - 250px) / 2.15));
+  transform-origin:50% 100%;
+  transform:translateX(-50%) scale(.42);
+  filter:brightness(.5);
+}
+.walker.go{animation:approach 14s linear forwards}
+@keyframes approach{
+  from{transform:translateX(-50%) scale(.42);filter:brightness(.5)}
+  to{transform:translateX(-50%) scale(1.32);filter:brightness(1.05)}
+}
+.zombie{display:block;width:100%;padding:0;border:0;background:none;cursor:crosshair;touch-action:manipulation}
+.zombie svg{display:block;width:100%;height:auto;overflow:visible}
+.zb{transform-origin:50% 100%;animation:sway .9s ease-in-out infinite alternate}
+@keyframes sway{from{transform:rotate(-4deg)}to{transform:rotate(4deg)}}
+.zombie.hit .zb{animation:hit .28s ease-out, sway .9s ease-in-out .28s infinite alternate}
+@keyframes hit{0%{transform:translate(0,0) rotate(0)}30%{transform:translate(-8px,6px) rotate(-9deg)}60%{transform:translate(6px,2px) rotate(6deg)}100%{transform:none}}
+.zombie.hit .flash{animation:flash .28s ease-out}
+.flash{opacity:0}
+@keyframes flash{0%{opacity:.75}100%{opacity:0}}
+.zombie.down .zb{animation:fall .9s cubic-bezier(.5,0,.8,.4) forwards}
+@keyframes fall{to{transform:translateY(12%) rotate(84deg);opacity:.85}}
+.zombie.down{cursor:default}
+
+.pow{
+  position:fixed;z-index:6;pointer-events:none;
+  font-family:var(--f-display);font-size:34px;color:var(--tape);
+  text-shadow:2px 2px 0 var(--tape-ink);
+  transform:translate(-50%,-50%);
+  animation:pow .6s ease-out forwards;
+}
+@keyframes pow{0%{transform:translate(-50%,-50%) scale(.4) rotate(-12deg);opacity:1}40%{transform:translate(-50%,-80%) scale(1.15) rotate(6deg)}100%{transform:translate(-50%,-140%) scale(1);opacity:0}}
+
+.verdict{
+  position:absolute;left:50%;top:44%;z-index:4;width:min(90%,420px);
+  transform:translate(-50%,-50%);
+  margin:0;font-family:var(--f-display);font-size:clamp(28px,7vw,40px);line-height:1.1;color:var(--bone);
+  text-shadow:0 2px 18px #000;text-wrap:balance;
+}
+.verdict small{display:block;margin-top:10px;font-family:var(--f-body);font-size:17px;color:var(--bone)}
+
+.skip{position:relative;z-index:2;justify-self:center;border:0;background:none;color:var(--bone-dim);font-size:14px;text-decoration:underline;text-underline-offset:3px;padding:10px;cursor:pointer}
+
+/* ---------- Приглашение ---------- */
+.invite{
+  max-width:640px;margin:0 auto;
+  padding-block:calc(env(safe-area-inset-top,0px) + 40px) calc(env(safe-area-inset-bottom,0px) + 56px);
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:grid;gap:40px;
+}
+.invite.show{animation:rise .7s ease-out}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+.hero{display:grid;gap:12px}
+.hero h1{margin:0;font-family:var(--f-display);font-weight:400;font-size:clamp(48px,14vw,84px);line-height:.95;color:var(--blood);text-wrap:balance}
+.hero .lead{margin:0;font-size:21px;font-weight:500}
+
+.pass{
+  position:relative;
+  display:grid;grid-template-columns:1fr 1fr;gap:0;
+  background:var(--night-2);border:1px solid var(--line);border-radius:6px;
+}
+.pass > div{padding:20px;display:grid;gap:4px;align-content:start;min-width:0}
+.pass > div + div{border-left:2px dashed var(--line)}
+.pass .big{font-size:26px;font-weight:700;line-height:1.2;font-variant-numeric:tabular-nums}
+.pass .sub{color:var(--bone-dim);font-size:15px}
+.pass .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:9px 14px;border-radius:4px;border:1px solid var(--line);
+  background:transparent;color:var(--bone);font-size:14px;text-decoration:none;cursor:pointer;
+}
+.btn:hover{border-color:var(--bone-dim)}
+.pass-foot{grid-column:1 / -1;border-top:2px dashed var(--line);padding:12px 20px;font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--bone-dim);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media (max-width:520px){
+  .pass{grid-template-columns:1fr}
+  .pass > div + div{border-left:0;border-top:2px dashed var(--line)}
+}
+
+.tape{
+  margin:0 -8px;padding:8px 16px;
+  background:repeating-linear-gradient(-45deg,var(--tape) 0 22px,var(--tape-ink) 22px 30px);
+  transform:rotate(-1.4deg);
+}
+.tape-red{background:repeating-linear-gradient(45deg,var(--blood) 0 22px,var(--bone) 22px 30px);transform:rotate(1.2deg)}
+.tape-red span{background:var(--blood)!important;color:var(--bone)!important}
+.tape span{display:inline-block;background:var(--tape);color:var(--tape-ink);padding:2px 10px;font-family:var(--f-mono);font-weight:700;font-size:15px;letter-spacing:.16em;text-transform:uppercase}
+
+section{display:grid;gap:18px}
+section h3{margin:0;font-size:22px;line-height:1.25;text-wrap:balance}
+ul.list{margin:0;padding:0;list-style:none;display:grid;gap:12px}
+ul.list li{position:relative;padding-left:22px;max-width:62ch}
+ul.list li::before{content:"";position:absolute;left:0;top:.68em;width:10px;height:2px;background:var(--blood)}
+
+.contact{display:grid;gap:6px;padding:16px 18px;border-left:3px solid var(--blood);background:var(--night-2)}
+.contact b{font-family:var(--f-mono);font-size:12px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--blood)}
+.contact p{margin:0}
+
+.stop{display:grid;gap:6px;padding:16px 18px;border:1px solid var(--line);border-radius:6px}
+.stop b{font-family:var(--f-mono);font-size:12px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--tape)}
+.stop p{margin:0}
+
+.outro{display:grid;gap:12px}
+.outro p{margin:0;max-width:62ch}
+.sign{font-family:var(--f-display);font-size:34px;color:var(--bone);margin-top:6px;display:flex;align-items:center;gap:10px}
+.heart{width:40px;height:40px;transform-origin:50% 60%;animation:beat 1.3s ease-in-out infinite}
+@keyframes beat{0%,100%{transform:scale(1) rotate(-8deg)}12%{transform:scale(1.18) rotate(-8deg)}24%{transform:scale(1) rotate(-8deg)}36%{transform:scale(1.12) rotate(-8deg)}}
+.again{justify-self:start}
+.counter{justify-self:start;padding:6px 12px;border:1px dashed var(--line);border-radius:4px;font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--bone-dim)}
+.counter b{color:var(--tape);font-weight:400;font-variant-numeric:tabular-nums}
+
+@media (prefers-reduced-motion:reduce){
+  .stage::before,.zb,.zombie.hit .zb,.heart{animation:none}
+  .walker.go{animation-duration:30s}
+  .invite.show{animation:none}
+}
+</style>
+
+<div class="stage" id="stage">
+  <div class="stage-head">
+    <div class="tag">КПП · 7 ноября · 19:20</div>
+    <h2 id="stageTitle">Сначала разберись с ним</h2>
+    <p id="stageHint">Тапай по зомби, пока он до тебя не дошёл</p>
+    <div class="hp" id="hp" aria-label="Осталось ударов: 5">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <div class="arena">
+    <p class="verdict" id="verdict" hidden></p>
+    <div class="walker" id="walker">
+      <button class="zombie" id="zombie" type="button" aria-label="Ударить зомби">
+        <svg viewBox="0 0 200 320" aria-hidden="true">
+          <g class="zb">
+            <!-- ноги -->
+            <path d="M80 228 L72 304 L94 304 L99 236Z" fill="var(--pants)"/>
+            <path d="M120 228 L130 304 L108 304 L102 236Z" fill="var(--pants)"/>
+            <rect x="62" y="300" width="34" height="12" rx="5" fill="var(--hair)"/>
+            <rect x="106" y="300" width="36" height="12" rx="5" fill="var(--hair)"/>
+            <!-- руки вперёд -->
+            <path d="M66 150 L26 112" stroke="var(--shirt)" stroke-width="22" stroke-linecap="round"/>
+            <path d="M32 118 L12 96" stroke="var(--skin)" stroke-width="15" stroke-linecap="round"/>
+            <path d="M134 150 L176 116" stroke="var(--shirt)" stroke-width="22" stroke-linecap="round"/>
+            <path d="M170 122 L190 104" stroke="var(--skin)" stroke-width="15" stroke-linecap="round"/>
+            <!-- шея -->
+            <rect x="88" y="106" width="24" height="30" fill="var(--skin-dark)"/>
+            <!-- рубашка с рваным низом -->
+            <path d="M60 140 Q100 122 140 140 L146 232 L136 222 L126 236 L114 224 L102 238 L90 224 L78 236 L66 222 L54 232Z" fill="var(--shirt)"/>
+            <path d="M88 160 Q98 150 108 162 Q116 176 102 182 Q86 184 88 170Z" fill="var(--blood)" opacity=".8"/>
+            <path d="M120 196 l6 14 l-10 -4Z" fill="var(--night)"/>
+            <!-- голова -->
+            <path d="M62 70 Q60 22 100 20 Q142 22 138 72 Q136 112 100 116 Q64 112 62 70Z" fill="var(--skin)"/>
+            <path d="M64 52 Q70 18 100 16 Q132 18 136 50 L126 38 L118 52 L108 34 L98 50 L88 32 L80 50 L72 40Z" fill="var(--hair)"/>
+            <!-- шов на лбу -->
+            <path d="M104 46 L128 62" stroke="var(--mouth)" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M108 44 l-3 7 M114 48 l-3 7 M120 52 l-3 7 M126 56 l-3 7" stroke="var(--mouth)" stroke-width="2" stroke-linecap="round"/>
+            <!-- глаза -->
+            <circle cx="84" cy="70" r="12" fill="var(--bone)"/>
+            <circle cx="87" cy="72" r="3.5" fill="var(--mouth)"/>
+            <ellipse cx="118" cy="74" rx="8" ry="6" fill="var(--bone)"/>
+            <circle cx="116" cy="76" r="2.5" fill="var(--mouth)"/>
+            <path d="M108 70 Q118 64 128 70 L128 72 Q118 70 108 73Z" fill="var(--skin-dark)"/>
+            <!-- рот -->
+            <path d="M78 94 Q100 104 124 92 L120 101 Q100 112 82 102Z" fill="var(--mouth)"/>
+            <path d="M88 99 l3 5 l3 -4 M104 101 l3 5 l3 -5" stroke="var(--bone)" stroke-width="2" fill="none"/>
+            <!-- вспышка при ударе -->
+            <path class="flash" d="M62 70 Q60 22 100 20 Q142 22 138 72 Q136 112 100 116 Q64 112 62 70Z M60 140 Q100 122 140 140 L146 232 L54 232Z" fill="#ffffff"/>
+          </g>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <button class="skip" id="skip" type="button">Пропустить и сразу к приглашению</button>
+</div>
+
+<main class="invite" id="invite" hidden>
+  <header class="hero">
+    <h1 id="inviteTitle" tabindex="-1">Ходячие мертвецы</h1>
+    <p class="lead">Привет! Жду тебя на квесте.</p>
+  </header>
+
+  <div class="pass">
+    <div>
+      <div class="tag">Когда</div>
+      <div class="big">7 ноября, суббота</div>
+      <div class="sub">Начало в 19:20</div>
+    </div>
+    <div>
+      <div class="tag">Где</div>
+      <div class="big" id="addr">Московский пр-т, 93Б</div>
+      <div class="sub">м. Московские ворота. Схему прохода от метро скину отдельно</div>
+      <div class="actions">
+        <a class="btn" href="https://yandex.ru/maps/?text=%D0%A1%D0%B0%D0%BD%D0%BA%D1%82-%D0%9F%D0%B5%D1%82%D0%B5%D1%80%D0%B1%D1%83%D1%80%D0%B3%2C%20%D0%9C%D0%BE%D1%81%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9%20%D0%BF%D1%80%D0%BE%D1%81%D0%BF%D0%B5%D0%BA%D1%82%2C%2093%D0%91" target="_blank" rel="noopener">Открыть на карте</a>
+        <button class="btn" id="copy" type="button">Скопировать адрес</button>
+      </div>
+    </div>
+    <div class="pass-foot"><span>Режим 18+ · с контактом</span><span>Вход через КПП</span></div>
+  </div>
+
+  <section>
+    <div class="tape"><span>Что важно знать</span></div>
+    <ul class="list">
+      <li>Приезжай за 5–8 минут до начала, не раньше: там негде ждать.</li>
+      <li>Но и не опаздывай! Потом не пустят.</li>
+      <li>Возьми оригинал документа: паспорт, загран, водительское или подтверждённый аккаунт на Госуслугах.</li>
+      <li>Одежда удобная, без юбок и платьев. Обувь без каблуков и высокой подошвы.</li>
+      <li>До квеста трезвые(( иначе не пустят.</li>
+      <li>Снимать внутри нельзя, но после будет видео нашего прохождения.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="tape tape-red"><span>Правила внутри</span></div>
+    <div class="contact">
+      <b>Версия с актёрами</b>
+      <p>Актёры могут схватить, тронуть, приподнять, но без боли. Правила ещё раз объяснят на месте, вот главное:</p>
+    </div>
+    <ul class="list">
+      <li>Двигаемся только когда горит свет. Если свет загорелся там, где стоит актёр, туда не идём, смотрим со стороны.</li>
+      <li>Актёры могут трогать нас, а мы их нет. Руками и ногами не размахиваем.</li>
+      <li>Не бегаем. В лазах и на препятствиях идём по одному.</li>
+      <li>Предметы из игры оставляем на месте, если не сказали иначе.</li>
+      <li>Двери не держим и не открываем с ноги, проходы не загораживаем, вещи не разбрасываем.</li>
+      <li>Розетки, провода, батареи, камеры и другие неигровые вещи не трогаем.</li>
+    </ul>
+    <div class="stop">
+      <b>Если стало слишком</b>
+      <p>Если станет плохо или очень страшно, из игры можно выйти: поднять над головой крест и показать его в камеру.</p>
+    </div>
+  </section>
+
+  <section class="outro">
+    <p>Если ты на машине, дай знать, я скину про парковку.</p>
+    <p>После квеста по настроению можно пойти куда-нибудь посидеть.</p>
+    <p>Если вдруг планы поменяются, предупреди заранее.</p>
+    <div class="sign">Полина <svg class="heart" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 35 C6 25 2 17 4 11 C6 4 15 3 20 10 C25 3 34 4 36 11 C38 17 34 25 20 35Z" fill="var(--blood)"/><path d="M14 12 L26 26" stroke="var(--night)" stroke-width="2" stroke-linecap="round"/><path d="M15 17 l4 -4 M18 20 l4 -4 M21 23 l4 -4" stroke="var(--night)" stroke-width="1.6" stroke-linecap="round"/><path d="M24 31 q1 4 0 6" stroke="var(--blood)" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg></div>
+    <button class="btn again" id="again" type="button">Встретить зомби ещё раз</button>
+  </section>
+
+  <div class="counter" id="counter" hidden>Сайт открыли <b id="count">0</b> <span id="countWord">раз</span></div>
+</main>
+
+<script>
+(function(){
+  var stage=document.getElementById('stage');
+  var walker=document.getElementById('walker');
+  var zombie=document.getElementById('zombie');
+  var hpBox=document.getElementById('hp');
+  var hpEls=hpBox.querySelectorAll('span');
+  var verdict=document.getElementById('verdict');
+  var invite=document.getElementById('invite');
+  var head=document.querySelector('.stage-head');
+  var MAX=5, hp=MAX, over=false, startTimer=null;
+  var words=['БАМ!','ХРЯСЬ!','ПАФ!','ТЫЩ!','БУМ!'];
+
+  function setHp(){
+    hpEls.forEach(function(el,i){ el.classList.toggle('gone', i>=hp); });
+    hpBox.setAttribute('aria-label','Осталось ударов: '+hp);
+  }
+
+  function pow(x,y){
+    var s=document.createElement('span');
+    s.className='pow';
+    s.textContent=words[(MAX-hp-1+words.length)%words.length];
+    s.style.left=x+'px'; s.style.top=y+'px';
+    s.addEventListener('animationend',function(){ s.remove(); });
+    document.body.appendChild(s);
+  }
+
+  zombie.addEventListener('click',function(e){
+    if(over) return;
+    hp--; setHp();
+    zombie.classList.remove('hit'); void zombie.offsetWidth; zombie.classList.add('hit');
+    var x=e.clientX, y=e.clientY;
+    if(!x && !y){ var r=zombie.getBoundingClientRect(); x=r.left+r.width/2; y=r.top+r.height/3; }
+    pow(x,y);
+    if(hp<=0) win();
+  });
+
+  walker.addEventListener('animationend',function(e){
+    if(e.target!==walker || e.animationName!=='approach') return;
+    if(over) return;
+    over=true;
+    stage.classList.add('bitten');
+    head.style.visibility='hidden';
+    verdict.innerHTML='Ой, тебя укусили!<small>Ничего, на квест тебя всё равно ждут</small>';
+    verdict.hidden=false;
+    setTimeout(reveal,2300);
+  });
+
+  function win(){
+    over=true;
+    walker.style.animationPlayState='paused';
+    zombie.classList.add('down');
+    head.style.visibility='hidden';
+    verdict.innerHTML='Готово!<small>Путь свободен, можно заходить</small>';
+    verdict.hidden=false;
+    setTimeout(reveal,1600);
+  }
+
+  function reveal(){
+    clearTimeout(startTimer);
+    stage.hidden=true;
+    document.body.classList.remove('locked');
+    invite.hidden=false;
+    invite.classList.remove('show'); void invite.offsetWidth; invite.classList.add('show');
+    window.scrollTo(0,0);
+    document.getElementById('inviteTitle').focus({preventScroll:true});
+  }
+
+  function start(){
+    hp=MAX; over=false; setHp();
+    stage.classList.remove('bitten');
+    zombie.classList.remove('hit','down');
+    head.style.visibility='';
+    verdict.hidden=true;
+    walker.classList.remove('go');
+    walker.style.animationPlayState='';
+    void walker.offsetWidth;
+    invite.hidden=true;
+    stage.hidden=false;
+    document.body.classList.add('locked');
+    clearTimeout(startTimer);
+    startTimer=setTimeout(function(){ walker.classList.add('go'); },900);
+  }
+
+  document.getElementById('skip').addEventListener('click',function(){ over=true; reveal(); });
+  document.getElementById('again').addEventListener('click',start);
+
+  document.getElementById('copy').addEventListener('click',function(){
+    var btn=this, text='Санкт-Петербург, Московский проспект, 93Б (м. Московские ворота)';
+    function done(){ btn.textContent='Скопировано'; setTimeout(function(){ btn.textContent='Скопировать адрес'; },1800); }
+    function fallback(){
+      var r=document.createRange(); r.selectNodeContents(document.getElementById('addr'));
+      var s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      btn.textContent='Выделила, скопируй';
+    }
+    try{
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(done,fallback);
+      } else fallback();
+    }catch(e){ fallback(); }
+  });
+
+  (function(){
+    function word(n){ var a=n%10, b=n%100; return (a>=2&&a<=4&&(b<12||b>14))?'раза':'раз'; }
+    try{
+      var ctrl=('AbortController' in window)?new AbortController():null;
+      var t=setTimeout(function(){ if(ctrl) ctrl.abort(); },6000);
+      fetch('https://abacus.jasoncameron.dev/hit/yushkay-design-kvest/visits',ctrl?{signal:ctrl.signal}:{})
+        .then(function(r){ return r.ok?r.json():null; })
+        .then(function(d){
+          clearTimeout(t);
+          if(!d || typeof d.value!=='number') return;
+          document.getElementById('count').textContent=d.value;
+          document.getElementById('countWord').textContent=word(d.value);
+          document.getElementById('counter').hidden=false;
+        })
+        .catch(function(){});
+    }catch(e){}
+  })();
+
+  if(location.hash==='#invite'){ over=true; reveal(); }
+  else start();
+})();
+</script>
+</body></html>
