@@ -184,7 +184,30 @@ ul.list li::before{content:"";position:absolute;left:0;top:.68em;width:10px;heig
 .stop b{font-family:var(--f-mono);font-size:12px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--tape)}
 .stop p{margin:0}
 
-.outro{display:grid;gap:12px}
+.outro{display:grid;gap:20px}
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.note{display:grid;gap:6px;align-content:start;padding:18px 20px;background:var(--night-2);border-top:3px solid var(--bone-dim);border-radius:0 0 6px 6px}
+.note b{font-family:var(--f-mono);font-size:12px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--bone-dim)}
+.note p{margin:0}
+.note-car{border-top-color:var(--tape)}.note-car b{color:var(--tape)}
+.note-after{border-top-color:var(--skin)}.note-after b{color:var(--skin)}
+.note-plans{border-top-color:var(--blood)}.note-plans b{color:var(--blood)}
+
+/* Подглядывающий зомби */
+.peek{
+  position:fixed;z-index:4;right:0;top:40%;
+  width:clamp(72px,9vw,130px);padding:0;border:0;background:none;cursor:pointer;
+  transform:translateX(110%) rotate(-22deg);transform-origin:100% 50%;
+  transition:transform .7s cubic-bezier(.3,1.3,.5,1);
+  touch-action:manipulation;
+}
+.peek.left{right:auto;left:0;transform-origin:0 50%;transform:translateX(-110%) scaleX(-1) rotate(-22deg)}
+.peek.out{transform:translateX(22%) rotate(-22deg)}
+.peek.left.out{transform:translateX(-22%) scaleX(-1) rotate(-22deg)}
+.peek.shoo{transition-duration:.18s;transition-timing-function:ease-in}
+.peek svg{display:block;width:100%;height:auto}
+.peek .eyes{animation:look 2.4s ease-in-out infinite}
+@keyframes look{0%,40%{transform:none}50%,90%{transform:translateX(-3px)}}
 .outro p{margin:0;max-width:62ch}
 .sign{font-family:var(--f-display);font-size:34px;color:var(--bone);margin-top:6px;display:flex;align-items:center;gap:10px}
 .heart{width:40px;height:40px;transform-origin:50% 60%;animation:beat 1.3s ease-in-out infinite}
@@ -337,12 +360,43 @@ ul.list li::before{content:"";position:absolute;left:0;top:.68em;width:10px;heig
   </section>
 
   <section class="outro">
-    <p>Если ты на машине, дай знать, я скину про парковку.</p>
-    <p>После квеста по настроению можно пойти куда-нибудь посидеть.</p>
-    <p>Если вдруг планы поменяются, предупреди заранее.</p>
+    <div class="notes">
+      <div class="note note-car">
+        <b>На машине?</b>
+        <p>Дай знать, я скину про парковку.</p>
+      </div>
+      <div class="note note-after">
+        <b>После квеста</b>
+        <p>По настроению можно пойти куда-нибудь посидеть.</p>
+      </div>
+      <div class="note note-plans">
+        <b>Планы поменялись?</b>
+        <p>Предупреди заранее.</p>
+      </div>
+    </div>
     <div class="sign">Полина <svg class="heart" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 35 C6 25 2 17 4 11 C6 4 15 3 20 10 C25 3 34 4 36 11 C38 17 34 25 20 35Z" fill="var(--blood)"/><path d="M14 12 L26 26" stroke="var(--night)" stroke-width="2" stroke-linecap="round"/><path d="M15 17 l4 -4 M18 20 l4 -4 M21 23 l4 -4" stroke="var(--night)" stroke-width="1.6" stroke-linecap="round"/><path d="M24 31 q1 4 0 6" stroke="var(--blood)" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg></div>
     <button class="btn again" id="again" type="button">Встретить зомби ещё раз</button>
   </section>
+
+  <button class="peek" id="peek" type="button" aria-label="Прогнать зомби" tabindex="-1">
+    <svg viewBox="56 12 92 112" aria-hidden="true">
+      <path d="M62 70 Q60 22 100 20 Q142 22 138 72 Q136 112 100 116 Q64 112 62 70Z" fill="var(--skin)"/>
+      <path d="M64 52 Q70 18 100 16 Q132 18 136 50 L126 38 L118 52 L108 34 L98 50 L88 32 L80 50 L72 40Z" fill="var(--hair)"/>
+      <path d="M104 46 L128 62" stroke="var(--mouth)" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M108 44 l-3 7 M114 48 l-3 7 M120 52 l-3 7 M126 56 l-3 7" stroke="var(--mouth)" stroke-width="2" stroke-linecap="round"/>
+      <g class="eyes">
+        <circle cx="84" cy="70" r="12" fill="var(--bone)"/>
+        <circle cx="81" cy="72" r="3.5" fill="var(--mouth)"/>
+        <ellipse cx="118" cy="74" rx="8" ry="6" fill="var(--bone)"/>
+        <circle cx="115" cy="76" r="2.5" fill="var(--mouth)"/>
+      </g>
+      <path d="M108 70 Q118 64 128 70 L128 72 Q118 70 108 73Z" fill="var(--skin-dark)"/>
+      <path d="M78 94 Q100 104 124 92 L120 101 Q100 112 82 102Z" fill="var(--mouth)"/>
+      <path d="M88 99 l3 5 l3 -4 M104 101 l3 5 l3 -5" stroke="var(--bone)" stroke-width="2" fill="none"/>
+      <path d="M58 84 q-2 -10 6 -12 q8 -1 9 8 l1 14 q-1 8 -8 7 q-7 -1 -8 -8Z" fill="var(--skin-dark)"/>
+      <path d="M60 76 l-2 -8 M66 73 l0 -9 M72 75 l2 -8" stroke="var(--skin-dark)" stroke-width="5" stroke-linecap="round"/>
+    </svg>
+  </button>
 
   <div class="counter" id="counter" hidden>Сайт открыли <b id="count">0</b> <span id="countWord">раз</span></div>
  </div>
@@ -465,6 +519,40 @@ ul.list li::before{content:"";position:absolute;left:0;top:.68em;width:10px;heig
         })
         .catch(function(){});
     }catch(e){}
+  })();
+
+  /* зомби выглядывает из-за края, пока читаешь приглашение */
+  (function(){
+    var peek=document.getElementById('peek'); if(!peek) return;
+    var reduce=window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduce){ peek.hidden=true; return; }
+    var tOut=null, tNext=null, side=0;
+    function hide(fast){
+      clearTimeout(tOut);
+      peek.classList.toggle('shoo',!!fast);
+      peek.classList.remove('out');
+    }
+    function show(){
+      if(invite.hidden || document.hidden){ plan(4000); return; }
+      side++;
+      peek.classList.remove('shoo');
+      peek.classList.toggle('left', side%2===0);
+      peek.style.top=(22+Math.random()*50)+'%';
+      void peek.offsetWidth;
+      peek.classList.add('out');
+      tOut=setTimeout(function(){ hide(false); plan(9000+Math.random()*8000); },3200);
+    }
+    function plan(ms){ clearTimeout(tNext); tNext=setTimeout(show,ms); }
+    peek.addEventListener('click',function(e){
+      if(!peek.classList.contains('out')) return;
+      var r=peek.getBoundingClientRect();
+      var s=document.createElement('span'); s.className='pow'; s.textContent='ОЙ!';
+      s.style.left=(e.clientX||r.left+r.width/2)+'px'; s.style.top=(e.clientY||r.top)+'px';
+      s.addEventListener('animationend',function(){ s.remove(); });
+      document.body.appendChild(s);
+      hide(true); plan(14000+Math.random()*8000);
+    });
+    plan(4500);
   })();
 
   if(location.hash==='#invite'){ over=true; reveal(); }
