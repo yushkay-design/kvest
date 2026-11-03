@@ -203,13 +203,14 @@ ul.list li::before{content:"";position:absolute;left:0;top:.68em;width:10px;heig
 .peek{
   position:fixed;z-index:4;right:0;top:40%;
   width:clamp(72px,9vw,130px);padding:0;border:0;background:none;cursor:pointer;
-  transform:translateX(110%) rotate(-22deg);transform-origin:100% 50%;
+  transform:translateX(110%) rotate(-22deg);transform-origin:50% 50%;
   transition:transform .7s cubic-bezier(.3,1.3,.5,1);
   touch-action:manipulation;
 }
-.peek.left{right:auto;left:0;transform-origin:0 50%;transform:translateX(-110%) scaleX(-1) rotate(-22deg)}
+.peek.left{right:auto;left:0;transform:translateX(-110%) rotate(22deg)}
+.peek.left svg{transform:scaleX(-1)}
 .peek.out{transform:translateX(22%) rotate(-22deg)}
-.peek.left.out{transform:translateX(-22%) scaleX(-1) rotate(-22deg)}
+.peek.left.out{transform:translateX(-22%) rotate(22deg)}
 .peek.shoo{transition-duration:.18s;transition-timing-function:ease-in}
 .peek svg{display:block;width:100%;height:auto}
 .peek .eyes{animation:look 2.4s ease-in-out infinite}
@@ -568,9 +569,13 @@ ul.list li::before{content:"";position:absolute;left:0;top:.68em;width:10px;heig
     function show(){
       if(invite.hidden || document.hidden){ plan(4000); return; }
       side++;
+      /* переставляем на другую сторону без анимации, пока он спрятан */
+      peek.style.transition='none';
       peek.classList.remove('shoo');
       peek.classList.toggle('left', side%2===0);
       peek.style.top=(22+Math.random()*50)+'%';
+      void peek.offsetWidth;
+      peek.style.transition='';
       void peek.offsetWidth;
       peek.classList.add('out');
       tOut=setTimeout(function(){ hide(false); plan(3500+Math.random()*3500); },3000);
