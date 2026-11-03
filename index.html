@@ -201,16 +201,17 @@ ul.list li::before{content:"";position:absolute;left:0;top:.68em;width:10px;heig
 
 /* Подглядывающий зомби */
 .peek{
-  position:fixed;z-index:4;right:0;top:40%;
+  position:fixed;z-index:4;top:40%;
   width:clamp(72px,9vw,130px);padding:0;border:0;background:none;cursor:pointer;
-  transform:translateX(110%) rotate(-22deg);transform-origin:50% 50%;
+  transform-origin:50% 50%;
   transition:transform .7s cubic-bezier(.3,1.3,.5,1);
   touch-action:manipulation;
 }
-.peek.left{right:auto;left:0;transform:translateX(-110%) rotate(22deg)}
-.peek.left svg{transform:scaleX(-1)}
-.peek.out{transform:translateX(22%) rotate(-22deg)}
-.peek.left.out{transform:translateX(-22%) rotate(22deg)}
+.peek-r{right:0;transform:translateX(115%) rotate(-22deg)}
+.peek-l{left:0;transform:translateX(-115%) rotate(22deg)}
+.peek-l svg{transform:scaleX(-1)}
+.peek-r.out{transform:translateX(22%) rotate(-22deg)}
+.peek-l.out{transform:translateX(-22%) rotate(22deg)}
 .peek.shoo{transition-duration:.18s;transition-timing-function:ease-in}
 .peek svg{display:block;width:100%;height:auto}
 .peek .eyes{animation:look 2.4s ease-in-out infinite}
@@ -330,7 +331,7 @@ ul.list li::before{content:"";position:absolute;left:0;top:.68em;width:10px;heig
     <div>
       <div class="tag">Где</div>
       <div class="big" id="addr">Московский пр-т, 93Б</div>
-      <div class="sub">м. Московские ворота. Схему прохода от метро скину отдельно</div>
+      <div class="sub">м. Московские ворота</div>
       <div class="actions">
         <a class="btn" href="https://yandex.ru/maps/?text=%D0%A1%D0%B0%D0%BD%D0%BA%D1%82-%D0%9F%D0%B5%D1%82%D0%B5%D1%80%D0%B1%D1%83%D1%80%D0%B3%2C%20%D0%9C%D0%BE%D1%81%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9%20%D0%BF%D1%80%D0%BE%D1%81%D0%BF%D0%B5%D0%BA%D1%82%2C%2093%D0%91" target="_blank" rel="noopener">Открыть на карте</a>
         <button class="btn" id="copy" type="button">Скопировать адрес</button>
@@ -392,7 +393,7 @@ ul.list li::before{content:"";position:absolute;left:0;top:.68em;width:10px;heig
     <button class="btn again" id="again" type="button">Встретить зомби ещё раз</button>
   </section>
 
-  <button class="peek" id="peek" type="button" aria-label="Прогнать зомби" tabindex="-1">
+  <button class="peek peek-r" id="peek" type="button" aria-label="Прогнать зомби" tabindex="-1">
     <svg viewBox="56 12 92 112" aria-hidden="true">
       <path d="M62 70 Q60 22 100 20 Q142 22 138 72 Q136 112 100 116 Q64 112 62 70Z" fill="var(--skin)"/>
       <path d="M64 52 Q70 18 100 16 Q132 18 136 50 L126 38 L118 52 L108 34 L98 50 L88 32 L80 50 L72 40Z" fill="var(--hair)"/>
@@ -557,38 +558,40 @@ ul.list li::before{content:"";position:absolute;left:0;top:.68em;width:10px;heig
 
   /* зомби выглядывает из-за края, пока читаешь приглашение */
   (function(){
-    var peek=document.getElementById('peek'); if(!peek) return;
+    var pr=document.getElementById('peek'); if(!pr) return;
     var reduce=window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if(reduce){ peek.hidden=true; return; }
-    var tOut=null, tNext=null, side=0;
+    if(reduce){ pr.hidden=true; return; }
+    /* два отдельных зомби: один живёт справа, другой слева, оба прямо в body */
+    var pl=pr.cloneNode(true); pl.id='peekL'; pl.className='peek peek-l';
+    document.body.appendChild(pr); document.body.appendChild(pl);
+    var tOut=null, tNext=null, side=0, cur=null;
     function hide(fast){
       clearTimeout(tOut);
-      peek.classList.toggle('shoo',!!fast);
-      peek.classList.remove('out');
+      if(!cur) return;
+      cur.classList.toggle('shoo',!!fast);
+      cur.classList.remove('out');
     }
     function show(){
       if(invite.hidden || document.hidden){ plan(4000); return; }
       side++;
-      /* переставляем на другую сторону без анимации, пока он спрятан */
-      peek.style.transition='none';
-      peek.classList.remove('shoo');
-      peek.classList.toggle('left', side%2===0);
-      peek.style.top=(22+Math.random()*50)+'%';
-      void peek.offsetWidth;
-      peek.style.transition='';
-      void peek.offsetWidth;
-      peek.classList.add('out');
+      cur = side%2 ? pr : pl;
+      cur.classList.remove('shoo');
+      cur.style.top=(22+Math.random()*50)+'%';
+      void cur.offsetWidth;
+      cur.classList.add('out');
       tOut=setTimeout(function(){ hide(false); plan(3500+Math.random()*3500); },3000);
     }
     function plan(ms){ clearTimeout(tNext); tNext=setTimeout(show,ms); }
-    peek.addEventListener('click',function(e){
-      if(!peek.classList.contains('out')) return;
-      var r=peek.getBoundingClientRect();
-      var s=document.createElement('span'); s.className='pow'; s.textContent='ОЙ!';
-      s.style.left=(e.clientX||r.left+r.width/2)+'px'; s.style.top=(e.clientY||r.top)+'px';
-      s.addEventListener('animationend',function(){ s.remove(); });
-      document.body.appendChild(s);
-      hide(true); plan(6000+Math.random()*4000);
+    [pr,pl].forEach(function(el){
+      el.addEventListener('click',function(e){
+        if(!el.classList.contains('out')) return;
+        var r=el.getBoundingClientRect();
+        var s=document.createElement('span'); s.className='pow'; s.textContent='ОЙ!';
+        s.style.left=(e.clientX||r.left+r.width/2)+'px'; s.style.top=(e.clientY||r.top)+'px';
+        s.addEventListener('animationend',function(){ s.remove(); });
+        document.body.appendChild(s);
+        hide(true); plan(6000+Math.random()*4000);
+      });
     });
     plan(2500);
   })();
