@@ -148,6 +148,12 @@ button{font:inherit;color:inherit}
 .pass > div + div{border-left:2px dashed var(--line)}
 .pass .big{font-size:26px;font-weight:700;line-height:1.2;font-variant-numeric:tabular-nums}
 .pass .sub{color:var(--bone-dim);font-size:15px}
+.countdown{display:grid;gap:8px;margin-top:14px}
+.cd-label{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--blood)}
+.cd-row{display:flex;flex-wrap:wrap;gap:8px}
+.cd-row span{display:grid;justify-items:center;min-width:58px;padding:8px 6px 6px;border:1px solid var(--line);border-radius:4px;background:var(--night);font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--bone-dim)}
+.cd-row b{font-family:var(--f-body);font-size:26px;font-weight:700;line-height:1.1;color:var(--bone);font-variant-numeric:tabular-nums;letter-spacing:0}
+.cd-done{font-weight:700;font-size:20px;color:var(--tape)}
 .pass .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .btn{
   display:inline-flex;align-items:center;gap:6px;
@@ -312,6 +318,13 @@ ul.list li::before{content:"";position:absolute;left:0;top:.68em;width:10px;heig
       <div class="tag">Когда</div>
       <div class="big">7 ноября, суббота</div>
       <div class="sub">Начало в 19:20</div>
+      <div class="countdown" id="countdown" aria-live="off">
+        <div class="cd-label">До встречи с мертвецами</div>
+        <div class="cd-row" id="cdRow">
+          <span><b id="cdD">0</b>дн.</span><span><b id="cdH">00</b>ч</span><span><b id="cdM">00</b>мин</span><span><b id="cdS">00</b>сек</span>
+        </div>
+        <div class="cd-done" id="cdDone" hidden></div>
+      </div>
     </div>
     <div>
       <div class="tag">Где</div>
@@ -393,8 +406,6 @@ ul.list li::before{content:"";position:absolute;left:0;top:.68em;width:10px;heig
       <path d="M108 70 Q118 64 128 70 L128 72 Q118 70 108 73Z" fill="var(--skin-dark)"/>
       <path d="M78 94 Q100 104 124 92 L120 101 Q100 112 82 102Z" fill="var(--mouth)"/>
       <path d="M88 99 l3 5 l3 -4 M104 101 l3 5 l3 -5" stroke="var(--bone)" stroke-width="2" fill="none"/>
-      <path d="M58 84 q-2 -10 6 -12 q8 -1 9 8 l1 14 q-1 8 -8 7 q-7 -1 -8 -8Z" fill="var(--skin-dark)"/>
-      <path d="M60 76 l-2 -8 M66 73 l0 -9 M72 75 l2 -8" stroke="var(--skin-dark)" stroke-width="5" stroke-linecap="round"/>
     </svg>
   </button>
 
@@ -521,6 +532,28 @@ ul.list li::before{content:"";position:absolute;left:0;top:.68em;width:10px;heig
     }catch(e){}
   })();
 
+  /* обратный отсчёт до 7 ноября 19:20 по Петербургу */
+  (function(){
+    var target=Date.parse('2026-11-07T19:20:00+03:00');
+    var row=document.getElementById('cdRow'), doneEl=document.getElementById('cdDone');
+    var D=document.getElementById('cdD'),H=document.getElementById('cdH'),M=document.getElementById('cdM'),S=document.getElementById('cdS');
+    function p(n){ return (n<10?'0':'')+n; }
+    function tick(){
+      var left=target-Date.now();
+      if(left<=0){
+        row.hidden=true; doneEl.hidden=false;
+        doneEl.textContent = left > -3*3600*1000 ? 'Квест уже идёт!' : 'Квест прошёл. Спасибо, что были со мной';
+        return;
+      }
+      var s=Math.floor(left/1000);
+      D.textContent=Math.floor(s/86400);
+      H.textContent=p(Math.floor(s%86400/3600));
+      M.textContent=p(Math.floor(s%3600/60));
+      S.textContent=p(s%60);
+    }
+    tick(); setInterval(tick,1000);
+  })();
+
   /* зомби выглядывает из-за края, пока читаешь приглашение */
   (function(){
     var peek=document.getElementById('peek'); if(!peek) return;
@@ -540,7 +573,7 @@ ul.list li::before{content:"";position:absolute;left:0;top:.68em;width:10px;heig
       peek.style.top=(22+Math.random()*50)+'%';
       void peek.offsetWidth;
       peek.classList.add('out');
-      tOut=setTimeout(function(){ hide(false); plan(9000+Math.random()*8000); },3200);
+      tOut=setTimeout(function(){ hide(false); plan(3500+Math.random()*3500); },3000);
     }
     function plan(ms){ clearTimeout(tNext); tNext=setTimeout(show,ms); }
     peek.addEventListener('click',function(e){
@@ -550,9 +583,9 @@ ul.list li::before{content:"";position:absolute;left:0;top:.68em;width:10px;heig
       s.style.left=(e.clientX||r.left+r.width/2)+'px'; s.style.top=(e.clientY||r.top)+'px';
       s.addEventListener('animationend',function(){ s.remove(); });
       document.body.appendChild(s);
-      hide(true); plan(14000+Math.random()*8000);
+      hide(true); plan(6000+Math.random()*4000);
     });
-    plan(4500);
+    plan(2500);
   })();
 
   if(location.hash==='#invite'){ over=true; reveal(); }
