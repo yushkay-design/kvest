@@ -32,6 +32,10 @@
 .message-paragraphs{white-space:normal}
 .message-paragraphs p{margin:0 0 1em;white-space:normal;overflow-wrap:break-word}
 .message-paragraphs p:last-child{margin-bottom:0}
+
+/* Final participant reply and dialog completion */
+.dialog-end-status{padding:19px;text-align:center;background:#122519;border-top:1px solid #45684a;color:var(--green);font:700 12px Consolas,monospace;letter-spacing:.13em}
+#final-outgoing{animation:up .35s ease-out}
 </style>
   
 </head>
@@ -83,11 +87,20 @@
           <div class="day-separator"><span>НОВОЕ СООБЩЕНИЕ</span></div>
           <article class="bubble incoming" aria-label="Второе сообщение пользователя 488-179"><div class="bubble-caption"><span class="sender-marker">●</span> 488-179 <span class="meta-right">ОТПРАВЛЕНО</span></div><div class="bubble-text message-paragraphs"><p>Мне приглянулась твоя кандидатура. Выбирай надежных напарников.</p><p>Буду ждать вас на проходной. Заходить на территорию СТРОГО ЗАПРЕЩЕНО!</p><p>Поэтому дождись меня, есть план.</p><p>Чтобы мне было проще узнать вас, на вопрос "Вы любители домашних животных?" ответьте "Да". А также уточните, какое именно КОНТАКТНОЕ животное вы предпочитаете (хомячок, кот, собака).</p><p>Как будете на месте, напиши мне, и я вас встречу!</p></div></article>
         </div>
+        <div id="final-outgoing" class="outgoing-wrap" hidden><article class="bubble outgoing"><div class="bubble-caption">ВЫ <span class="meta-right">ОТПРАВЛЕНО</span></div><div class="bubble-text">Принято</div></article></div>
       </div>
       <div id="compose-zone" class="interaction-zone">
         <div id="phrase-choice"><button id="choose-phrase" class="primary-button" type="button">Люблю домашних животных <span>↗</span></button></div>
         <div id="compose-form" class="compose-form" hidden><div class="compose-input"><span id="typed-phrase"></span><span id="typing-caret" class="typing-caret" aria-hidden="true">▋</span></div><button id="send-phrase" class="send-button" type="button" disabled>ОТПРАВИТЬ ↗</button></div>
       </div>
+      <div id="final-compose-zone" class="interaction-zone" hidden>
+        <div id="final-choice"><button id="choose-final" class="primary-button" type="button">Принято <span>↗</span></button></div>
+        <div id="final-compose-form" class="compose-form" hidden><div class="compose-input"><span id="typed-final"></span><span id="final-caret" class="typing-caret" aria-hidden="true">▋</span></div><button id="send-final" class="send-button" type="button" disabled>ОТПРАВИТЬ ↗</button></div>
+      </div>
+      <div id="complete-zone" class="interaction-zone" hidden>
+        <button id="finish-chat" class="primary-button" type="button">ЗАВЕРШИТЬ ДИАЛОГ <span>↗</span></button>
+      </div>
+      <div id="end-status" class="dialog-end-status" hidden>ДИАЛОГ ЗАВЕРШЁН</div>
       <div class="chat-bottom"><span>PRIVATE MESSAGES // 488-179</span><button id="restart" type="button" class="restart-button">↻ НАЧАТЬ ЗАНОВО</button></div>
     </section>
     <footer class="page-footer">DEADNET // PRIVATE MESSAGES <span>ЗАЩИЩЁННОЕ СОЕДИНЕНИЕ</span></footer>
@@ -96,45 +109,55 @@
 (()=>{
 'use strict';
 const $=id=>document.getElementById(id);
-const phrase='Люблю домашних животных';
-let typeTimer=null,replyTimer=null,ready=false,busy=false;
 const show=id=>{$(id).hidden=false},hide=id=>{$(id).hidden=true};
-const move=id=>requestAnimationFrame(()=>$(id).scrollIntoView({block:'nearest',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}));
+const reduced=()=>window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const move=id=>requestAnimationFrame(()=>$(id).scrollIntoView({block:'nearest',behavior:reduced()?'auto':'smooth'}));
+let typingTimer=null,replyTimer=null,ready='',busy=false,stage='start';
 function openThread(){hide('board');show('thread');window.scrollTo(0,0);try{history.replaceState(null,'','#chat')}catch(e){}}
 function back(){hide('thread');show('board');window.scrollTo(0,0);try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}}
 $('open-thread').addEventListener('click',openThread);
 $('back-board').addEventListener('click',back);
-function startTyping(){
-if(ready||busy)return;
-busy=true;hide('phrase-choice');show('compose-form');
-$('typed-phrase').textContent='';$('typing-caret').hidden=false;$('send-phrase').disabled=true;
-const letters=Array.from(phrase);
-const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
-let i=0;
-function next(){
-if(i<letters.length){$('typed-phrase').textContent+=letters[i++];typeTimer=setTimeout(next,reduced?0:65)}
-else{typeTimer=null;$('typing-caret').hidden=true;$('send-phrase').disabled=false;ready=true;busy=false}
+function animateText(word,textId,caretId,sendId,key){
+ if(busy||ready||stage!==key)return;
+ busy=true;hide(key==='start'?'phrase-choice':'final-choice');
+ show(key==='start'?'compose-form':'final-compose-form');
+ $(textId).textContent='';$(caretId).hidden=false;$(sendId).disabled=true;
+ let i=0;const chars=Array.from(word);
+ function next(){
+   if(i<chars.length){$(textId).textContent+=chars[i++];typingTimer=setTimeout(next,reduced()?0:85)}
+   else{typingTimer=null;$(caretId).hidden=true;$(sendId).disabled=false;ready=key;busy=false;}
+ }
+ next();
 }
-next();
-}
-$('choose-phrase').addEventListener('click',startTyping);
+$('choose-phrase').addEventListener('click',()=>animateText('Люблю домашних животных','typed-phrase','typing-caret','send-phrase','start'));
 $('send-phrase').addEventListener('click',()=>{
-if(!ready||busy)return;
-ready=false;busy=true;
-hide('compose-zone');show('outgoing-block');show('typing-block');move('typing-block');
-replyTimer=setTimeout(()=>{
-replyTimer=null;hide('typing-block');show('reply-block');move('reply-block');busy=false;
-},5500);
+ if(busy||ready!=='start')return;
+ ready='';busy=true;stage='awaiting-reply';
+ hide('compose-zone');show('outgoing-block');show('typing-block');move('typing-block');
+ replyTimer=setTimeout(()=>{
+    replyTimer=null;hide('typing-block');show('reply-block');show('final-compose-zone');
+    stage='final';busy=false;move('final-compose-zone');
+ },5500);
+});
+$('choose-final').addEventListener('click',()=>animateText('Принято','typed-final','final-caret','send-final','final'));
+$('send-final').addEventListener('click',()=>{
+ if(busy||ready!=='final')return;
+ ready='';stage='sent-final';hide('final-compose-zone');
+ show('final-outgoing');show('complete-zone');move('complete-zone');
+});
+$('finish-chat').addEventListener('click',()=>{
+ if(stage!=='sent-final')return;
+ stage='finished';hide('complete-zone');show('end-status');move('end-status');
 });
 $('restart').addEventListener('click',()=>{
-if(typeTimer!==null){clearTimeout(typeTimer);typeTimer=null}
-if(replyTimer!==null){clearTimeout(replyTimer);replyTimer=null}
-busy=false;ready=false;
-['outgoing-block','typing-block','reply-block','compose-form'].forEach(hide);
-['compose-zone','phrase-choice'].forEach(show);
-$('typed-phrase').textContent='';
-$('typing-caret').hidden=false;
-$('send-phrase').disabled=true;move('chat-history');
+ if(typingTimer!==null){clearTimeout(typingTimer);typingTimer=null}
+ if(replyTimer!==null){clearTimeout(replyTimer);replyTimer=null}
+ ready='';busy=false;stage='start';
+ ['outgoing-block','typing-block','reply-block','final-outgoing','compose-form','final-compose-zone','final-compose-form','complete-zone','end-status'].forEach(hide);
+ ['compose-zone','phrase-choice','final-choice'].forEach(show);
+ $('typed-phrase').textContent='';$('typed-final').textContent='';
+ $('typing-caret').hidden=false;$('final-caret').hidden=false;
+ $('send-phrase').disabled=true;$('send-final').disabled=true;move('chat-history');
 });
 if(location.hash==='#chat')openThread();
 })();
