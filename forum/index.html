@@ -27,6 +27,11 @@
 .forum-card h3{overflow-wrap:anywhere}
 @media(max-width:500px){.avatar{flex-basis:38px;width:38px;height:38px}.avatar-placeholder{width:22px}.chat-header{gap:10px}.chat-contact b{line-height:1.3}.chat-contact>span{line-height:1.4}.network-state{min-width:22px}}
 @media(max-width:350px){.site-bar-inner,.page-shell{padding-left:11px;padding-right:11px}.brand-muted,.thread-nav-id{display:none}.chat-history{padding:10px}.chat-header{padding:10px}.chat-contact b{font-size:9px}.chat-contact>span{font-size:7.5px}.bubble-text{font-size:11.5px}.primary-button{font-size:11px;letter-spacing:-.02em}.chat-bottom{flex-wrap:wrap}}
+
+/* Смысловые абзацы в обоих сообщениях: переносы делает браузер по ширине экрана. */
+.message-paragraphs{white-space:normal}
+.message-paragraphs p{margin:0 0 1em;white-space:normal;overflow-wrap:break-word}
+.message-paragraphs p:last-child{margin-bottom:0}
 </style>
   
 </head>
@@ -71,27 +76,12 @@
       <div class="chat-header"><div class="avatar" aria-hidden="true"><svg class="avatar-placeholder" viewBox="0 0 32 32" width="25" height="25" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="10.5" r="5" stroke="currentColor" stroke-width="1.8"/><path d="M5.5 26.5v-2.2c0-5.2 4.2-8.6 10.5-8.6s10.5 3.4 10.5 8.6v2.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="chat-contact"><b>ПОЛЬЗОВАТЕЛЬ 488-179</b><span>НЕИЗВЕСТНЫЙ ОТПРАВИТЕЛЬ</span></div><span class="chat-offline"><span class="bars" role="img" aria-label="Очень слабый сигнал"><i></i><i></i><i></i><i></i></span></span></div>
       <div class="chat-history" id="chat-history" aria-live="polite">
         
-        <article class="bubble incoming" aria-label="Сообщение пользователя 488-179"><div class="bubble-caption"><span class="sender-marker">●</span> 488-179 <span class="meta-right">ОТПРАВЛЕНО</span></div><div class="bubble-text">Местный полицейский участок опустел. Все копы уехали в соседний штат
-решать проблему с зараженными новым вирусом, о котором говорят в
-новостях.
-Идеальный шанс пробраться на территорию, попасть в комнату, где они
-хранят кучу денег, и вынести их, пока они еще имеют ценность.
-Ищу надежных напарников, которые помогут мне ограбить участок.
-Вылазка с разведкой уже была проведена, поэтому я могу гарантировать,
-что все пройдет гладко и что там есть, чем поживиться.
-Если заинтересовало, напиши мне кодовую фразу "Люблю домашних
-животных".</div></article>
+        <article class="bubble incoming" aria-label="Сообщение пользователя 488-179"><div class="bubble-caption"><span class="sender-marker">●</span> 488-179 <span class="meta-right">ОТПРАВЛЕНО</span></div><div class="bubble-text message-paragraphs"><p>Местный полицейский участок опустел. Все копы уехали в соседний штат решать проблему с зараженными новым вирусом, о котором говорят в новостях.</p><p>Идеальный шанс пробраться на территорию, попасть в комнату, где они хранят кучу денег, и вынести их, пока они еще имеют ценность.</p><p>Ищу надежных напарников, которые помогут мне ограбить участок.</p><p>Вылазка с разведкой уже была проведена, поэтому я могу гарантировать, что все пройдет гладко и что там есть, чем поживиться.</p><p>Если заинтересовало, напиши мне кодовую фразу "Люблю домашних животных".</p></div></article>
         <div id="outgoing-block" class="outgoing-wrap" hidden><article class="bubble outgoing"><div class="bubble-caption">ВАШ ОТВЕТ <span class="meta-right">ОТПРАВЛЕНО</span></div><div class="bubble-text">Люблю домашних животных</div></article></div>
         <div id="typing-block" class="typing-block" hidden><span class="sender-small">488-179 ПЕЧАТАЕТ</span><div class="typing-dots" aria-label="488-179 печатает"><i></i><i></i><i></i></div></div>
         <div id="reply-block" class="reply-block" hidden>
           <div class="day-separator"><span>НОВОЕ СООБЩЕНИЕ</span></div>
-          <article class="bubble incoming" aria-label="Второе сообщение пользователя 488-179"><div class="bubble-caption"><span class="sender-marker">●</span> 488-179 <span class="meta-right">ОТПРАВЛЕНО</span></div><div class="bubble-text">Мне приглянулась твоя кандидатура. Выбирай надежных напарников.
-Буду ждать вас на проходной. Заходить на территорию СТРОГО ЗАПРЕЩЕНО!
-Поэтому дождись меня, есть план.
-Чтобы мне было проще узнать вас, на вопрос "Вы любители домашних
-животных?" ответьте "Да". А также уточните, какое именно КОНТАКТНОЕ
-животное вы предпочитаете (хомячок, кот, собака).
-Как будете на месте, напиши мне, и я вас встречу!</div></article>
+          <article class="bubble incoming" aria-label="Второе сообщение пользователя 488-179"><div class="bubble-caption"><span class="sender-marker">●</span> 488-179 <span class="meta-right">ОТПРАВЛЕНО</span></div><div class="bubble-text message-paragraphs"><p>Мне приглянулась твоя кандидатура. Выбирай надежных напарников.</p><p>Буду ждать вас на проходной. Заходить на территорию СТРОГО ЗАПРЕЩЕНО!</p><p>Поэтому дождись меня, есть план.</p><p>Чтобы мне было проще узнать вас, на вопрос "Вы любители домашних животных?" ответьте "Да". А также уточните, какое именно КОНТАКТНОЕ животное вы предпочитаете (хомячок, кот, собака).</p><p>Как будете на месте, напиши мне, и я вас встречу!</p></div></article>
         </div>
       </div>
       <div id="compose-zone" class="interaction-zone">
@@ -134,7 +124,7 @@ ready=false;busy=true;
 hide('compose-zone');show('outgoing-block');show('typing-block');move('typing-block');
 replyTimer=setTimeout(()=>{
 replyTimer=null;hide('typing-block');show('reply-block');move('reply-block');busy=false;
-},4200);
+},5500);
 });
 $('restart').addEventListener('click',()=>{
 if(typeTimer!==null){clearTimeout(typeTimer);typeTimer=null}
