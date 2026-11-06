@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#080d0b">
+  <meta name="description" content="DEADNET — подпольный форум.">
+  <meta property="og:title" content="DEADNET // Доска объявлений">
+  <meta property="og:description" content="Закрытая доска объявлений.">
+  <title>DEADNET // Доска объявлений</title>
+  <style>
+:root{--bg:#0b110d;--panel:#152219;--line:#355139;--green:#b7e68f;--text:#e1eade;--muted:#91a996;--red:#d8837b;font-family:system-ui,Arial,sans-serif;color:var(--text);background:var(--bg)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse 70% 35% at 50% 0%,#1b2e1d,transparent 80%),var(--bg);min-height:100vh}button{font:inherit;cursor:pointer}button:focus-visible{outline:2px solid var(--green);outline-offset:3px}[hidden]{display:none!important}.scanlines{position:fixed;inset:0;pointer-events:none;z-index:8;opacity:.2;background:repeating-linear-gradient(0deg,transparent 0 3px,#0003 4px)}.grain{display:none}.site-bar{border-bottom:1px solid var(--line);background:#101b13}.site-bar-inner,.page-shell{max-width:1100px;margin:auto;padding-left:24px;padding-right:24px}.site-bar-inner{height:72px;display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{font:800 20px Consolas,monospace;display:flex;align-items:center;gap:12px;letter-spacing:.1em}.brand-symbol{color:var(--green);font-size:27px}.brand-slash,.brand-muted{color:#789780;font-size:11px}.bars{display:inline-flex;align-items:flex-end;gap:3px;height:19px;vertical-align:middle}.bars i{display:block;width:5px;border-radius:1px;background:#405149}.bars i:nth-child(1){height:5px;background:var(--red);box-shadow:0 0 7px #dd807777}.bars i:nth-child(2){height:9px}.bars i:nth-child(3){height:14px}.bars i:nth-child(4){height:19px}
+.forum{padding:62px 0 38px}.eyebrow,.section-counter,.card-corner,.card-category,.forum-foot,.page-footer,.thread-nav,.chat-header,.bubble-caption,.day-separator,.chat-bottom{font-family:Consolas,monospace;letter-spacing:.035em}.eyebrow{color:#9ec791;font-size:10px;letter-spacing:.16em}.section-top{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:28px}.section-top h2,.thread-hero h1{font-size:clamp(30px,4vw,47px);margin:9px 0;letter-spacing:-.055em}.section-top p,.thread-hero p{color:var(--muted);font-size:13px;line-height:1.6;margin:5px 0}.heading-prompt{color:var(--green)}.section-counter{display:flex;gap:11px;align-items:center;color:var(--muted);font-size:10px}.section-counter b{font-size:44px;color:var(--green)}.forum-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.forum-card{min-height:217px;padding:21px;background:#131d16;border:1px solid #2d4533;color:var(--text);display:flex;flex-direction:column;justify-content:space-between;text-align:left}.forum-card.unlocked{background:linear-gradient(125deg,#1e3422,#122017);border-color:#79ac71;transition:background .2s,transform .2s,border .2s}.forum-card.unlocked:hover{background:#29432c;transform:translateY(-2px);border-color:var(--green)}.forum-card.locked{opacity:.46;filter:grayscale(.35)}.card-corner{display:flex;justify-content:space-between;gap:12px;font-size:10px;color:#819e82}.card-signal{color:var(--green)}.card-icon{font-size:30px;color:var(--green);margin:14px 0}.card-bottom{display:flex;align-items:end;justify-content:space-between;gap:14px}.card-category{font-size:9px;color:#95b197;letter-spacing:.09em}.forum-card h3{font-size:22px;margin:7px 0}.forum-card p{color:var(--muted);font-size:12px;margin:0}.card-arrow{font-size:30px;color:var(--green)}.card-lock{font-size:19px}.forum-foot,.page-footer{display:flex;justify-content:space-between;gap:10px;color:#6c8a70;font-size:9px}.forum-foot{margin-top:16px}.page-footer{border-top:1px solid var(--line);padding:25px 0;margin:40px 0 0}
+.thread-page{max-width:950px}.thread-nav{display:flex;justify-content:space-between;align-items:center;padding-top:30px;font-size:11px;color:#729477}.back-button,.restart-button{border:0;background:none;color:var(--green);padding:9px 0;font:600 11px Consolas,monospace}.thread-hero{padding:33px 0 22px}.thread-hero h1{font-size:clamp(34px,5vw,54px)}.chat-shell{border:1px solid #3c5b40;background:#0d1610}.chat-header{display:flex;gap:14px;align-items:center;background:#17291b;border-bottom:1px solid var(--line);padding:17px 22px}.avatar{width:44px;height:44px;display:grid;place-items:center;background:#2d4530;border:1px solid #7cab73;color:var(--green);font-weight:700}.avatar span{color:#82a97a}.chat-contact{display:flex;flex-direction:column;gap:5px}.chat-contact b{font-size:12px}.chat-contact>span{font-size:9px;color:#819e83}.chat-offline{margin-left:auto}.chat-history{display:flex;flex-direction:column;gap:18px;padding:24px}.bubble{background:#192b1d;border:1px solid #45684a;padding:19px 22px;max-width:780px}.bubble-caption{display:flex;justify-content:space-between;gap:12px;color:var(--green);font-size:11px;margin-bottom:13px}.meta-right{margin-left:auto;font-size:9px;color:#789b7c}.bubble-text{white-space:pre-line;line-height:1.8;font-size:14px}.outgoing-wrap{display:flex;justify-content:flex-end}.outgoing{background:#2b4a30;border-color:#7ca876;min-width:220px}.typing-block{display:flex;align-items:center;gap:13px;color:#8fb090;font:11px Consolas,monospace}.typing-dots{display:flex;gap:5px}.typing-dots i{background:var(--green);display:block;width:6px;height:6px;border-radius:50%;animation:blink .7s infinite}.typing-dots i:nth-child(2){animation-delay:.18s}.typing-dots i:nth-child(3){animation-delay:.36s}@keyframes blink{50%{opacity:.2}}.reply-block{display:flex;flex-direction:column;gap:16px;animation:up .35s ease-out}@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}.day-separator{text-align:center;color:#77977a;font-size:9px}.interaction-zone{padding:22px;background:#15251a;border-top:1px solid #3c5b40}.primary-button,.send-button{background:var(--green);border:1px solid var(--green);color:#0c1a0f;padding:15px 20px;font:700 12px Consolas,monospace;display:flex;align-items:center;justify-content:space-between;gap:18px}.primary-button:hover,.send-button:not(:disabled):hover{background:#d4f3bb}.primary-button{min-width:285px}.compose-form{display:flex;gap:12px}.compose-input{flex:1;min-width:0;background:#0b170f;border:1px solid #679568;padding:14px 16px;color:#d8ecd0;font:13px Consolas,monospace}.typing-caret{color:var(--green);animation:blink .55s infinite}.send-button:disabled{background:#304632;color:#819f84;cursor:default}.chat-bottom{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 22px;border-top:1px solid #2c4731;color:#6f9174;font-size:9px}
+@media(max-width:720px){.forum-grid{grid-template-columns:1fr}.forum-card{min-height:156px}.forum{padding-top:43px}}@media(max-width:500px){.page-shell,.site-bar-inner{padding-left:15px;padding-right:15px}.site-bar-inner{height:62px}.brand{font-size:16px;gap:6px}.brand-muted{font-size:8px}.section-top h2,.thread-hero h1{font-size:32px}.section-counter b{font-size:32px}.section-counter span{font-size:8px}.forum-card{padding:17px}.forum-card h3{font-size:20px}.card-icon{font-size:22px;margin:10px 0}.forum-foot span:last-child,.page-footer span:last-child{display:none}.thread-nav{padding-top:18px}.thread-hero{padding:26px 0}.chat-header{padding:12px}.avatar{width:38px;height:38px;font-size:12px}.chat-contact b{font-size:10px}.chat-contact>span{font-size:8px}.chat-history{padding:13px;gap:14px}.bubble{padding:14px 13px}.bubble-text{font-size:12px}.bubble-caption{font-size:10px}.interaction-zone{padding:15px}.primary-button{min-width:0;width:100%}.compose-form{flex-direction:column}.compose-input{min-height:48px}.chat-bottom{padding:12px;font-size:8px}.restart-button{font-size:9px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;scroll-behavior:auto!important}}
+</style>
+  
+</head>
+<body>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="site-bar">
+    <div class="site-bar-inner">
+      <div class="brand"><span class="brand-symbol" aria-hidden="true">✳</span><span>DEADNET</span><span class="brand-slash">//</span><span class="brand-muted">NODE 09</span></div>
+      <div class="network-state"><span class="bars" role="img" aria-label="Очень слабый сигнал"><i></i><i></i><i></i><i></i></span></div>
+    </div>
+  </header>
+
+  <main id="board" class="screen page-shell">
+    <section class="forum" aria-labelledby="forum-title">
+      <div class="section-top">
+        <div><div class="eyebrow subdued">/ INDEX / FORUM</div><h2 id="forum-title">Доска объявлений<span class="heading-prompt">_</span></h2><p>Некоторые разделы временно недоступны.</p></div>
+        <div class="section-counter"><b>01</b><span>ДОСТУПНО<br>ИЗ 04</span></div>
+      </div>
+      <div class="forum-grid">
+        <button id="open-thread" class="forum-card unlocked" type="button" aria-label="Открыть раздел Быстрый заработок">
+          <div class="card-corner">01 / 04 <span class="card-signal">● ДОСТУПНО</span></div>
+          <div class="card-icon" aria-hidden="true">⌁</div>
+          <div class="card-bottom"><div><span class="card-category">ОБЪЯВЛЕНИЯ / ДОСТУПНО</span><h3>Быстрый заработок</h3><p>Необычное предложение. Ищут напарников.</p></div><span class="card-arrow" aria-hidden="true">↗</span></div>
+        </button>
+        <div class="forum-card locked" aria-disabled="true"><div class="card-corner">02 / 04 <span>× НЕТ СИГНАЛА</span></div><div class="card-icon" aria-hidden="true">⌑</div><div class="card-bottom"><div><span class="card-category">РАЗДЕЛ ЗАКРЫТ</span><h3>Выгодные сделки</h3><p>Нет доступа.</p></div><span class="card-lock" aria-hidden="true">╳</span></div></div>
+        <div class="forum-card locked" aria-disabled="true"><div class="card-corner">03 / 04 <span>× НЕТ СИГНАЛА</span></div><div class="card-icon" aria-hidden="true">⌑</div><div class="card-bottom"><div><span class="card-category">РАЗДЕЛ ЗАКРЫТ</span><h3>Скупка / продажа</h3><p>Нет доступа.</p></div><span class="card-lock" aria-hidden="true">╳</span></div></div>
+        <div class="forum-card locked" aria-disabled="true"><div class="card-corner">04 / 04 <span>× НЕТ СИГНАЛА</span></div><div class="card-icon" aria-hidden="true">⌑</div><div class="card-bottom"><div><span class="card-category">РАЗДЕЛ ЗАКРЫТ</span><h3>Обмен припасами</h3><p>Нет доступа.</p></div><span class="card-lock" aria-hidden="true">╳</span></div></div>
+      </div>
+      <div class="forum-foot"><span>↑ ВЫБЕРИТЕ ДОСТУПНУЮ ЗАПИСЬ</span><span>ЗАЩИЩЁННОЕ СОЕДИНЕНИЕ</span></div>
+    </section>
+    <footer class="page-footer">DEADNET // ВЫЖИВШИЕ НЕ ОСТАВЛЯЮТ СЛЕДОВ <span>© АРХИВНЫЙ УЗЕЛ 09</span></footer>
+  </main>
+
+  <main id="thread" class="screen page-shell thread-page" hidden>
+    <nav class="thread-nav"><button id="back-board" type="button" class="back-button">← ВЕРНУТЬСЯ К РАЗДЕЛАМ</button><span class="thread-nav-id">/ FILE: 488-179</span></nav>
+    <section class="thread-hero">
+      <div class="eyebrow"><span class="tiny-led"></span> ЛИЧНЫЕ СООБЩЕНИЯ</div>
+      <div class="thread-title-row"><div><h1>Быстрый заработок<span class="heading-prompt">_</span></h1><p>Личное сообщение от неизвестного пользователя.</p></div></div>
+    </section>
+    <section class="chat-shell" aria-label="Личная переписка">
+      <div class="chat-header"><div class="avatar" aria-hidden="true">48<span>8</span></div><div class="chat-contact"><b>ПОЛЬЗОВАТЕЛЬ 488-179</b><span>НЕИЗВЕСТНЫЙ ОТПРАВИТЕЛЬ</span></div><span class="chat-offline"><span class="bars" role="img" aria-label="Очень слабый сигнал"><i></i><i></i><i></i><i></i></span></span></div>
+      <div class="chat-history" id="chat-history" aria-live="polite">
+        
+        <article class="bubble incoming" aria-label="Сообщение пользователя 488-179"><div class="bubble-caption"><span class="sender-marker">●</span> 488-179 <span class="meta-right">ОТПРАВЛЕНО</span></div><div class="bubble-text">Местный полицейский участок опустел. Все копы уехали в соседний штат
+решать проблему с зараженными новым вирусом, о котором говорят в
+новостях.
+Идеальный шанс пробраться на территорию, попасть в комнату, где они
+хранят кучу денег, и вынести их, пока они еще имеют ценность.
+Ищу надежных напарников, которые помогут мне ограбить участок.
+Вылазка с разведкой уже была проведена, поэтому я могу гарантировать,
+что все пройдет гладко и что там есть, чем поживиться.
+Если заинтересовало, напиши мне кодовую фразу "Люблю домашних
+животных".</div></article>
+        <div id="outgoing-block" class="outgoing-wrap" hidden><article class="bubble outgoing"><div class="bubble-caption">ВАШ ОТВЕТ <span class="meta-right">ОТПРАВЛЕНО</span></div><div class="bubble-text">Люблю домашних животных</div></article></div>
+        <div id="typing-block" class="typing-block" hidden><span class="sender-small">488-179 ПЕЧАТАЕТ</span><div class="typing-dots" aria-label="488-179 печатает"><i></i><i></i><i></i></div></div>
+        <div id="reply-block" class="reply-block" hidden>
+          <div class="day-separator"><span>НОВОЕ СООБЩЕНИЕ</span></div>
+          <article class="bubble incoming" aria-label="Второе сообщение пользователя 488-179"><div class="bubble-caption"><span class="sender-marker">●</span> 488-179 <span class="meta-right">ОТПРАВЛЕНО</span></div><div class="bubble-text">Мне приглянулась твоя кандидатура. Выбирай надежных напарников.
+Буду ждать вас на проходной. Заходить на территорию СТРОГО ЗАПРЕЩЕНО!
+Поэтому дождись меня, есть план.
+Чтобы мне было проще узнать вас, на вопрос "Вы любители домашних
+животных?" ответьте "Да". А также уточните, какое именно КОНТАКТНОЕ
+животное вы предпочитаете (хомячок, кот, собака).
+Как будете на месте, напиши мне, и я вас встречу!</div></article>
+        </div>
+      </div>
+      <div id="compose-zone" class="interaction-zone">
+        <div id="phrase-choice"><button id="choose-phrase" class="primary-button" type="button">Люблю домашних животных <span>↗</span></button></div>
+        <div id="compose-form" class="compose-form" hidden><div class="compose-input"><span id="typed-phrase"></span><span id="typing-caret" class="typing-caret" aria-hidden="true">▋</span></div><button id="send-phrase" class="send-button" type="button" disabled>ОТПРАВИТЬ ↗</button></div>
+      </div>
+      <div class="chat-bottom"><span>PRIVATE MESSAGES // 488-179</span><button id="restart" type="button" class="restart-button">↻ НАЧАТЬ ЗАНОВО</button></div>
+    </section>
+    <footer class="page-footer">DEADNET // PRIVATE MESSAGES <span>ЗАЩИЩЁННОЕ СОЕДИНЕНИЕ</span></footer>
+  </main>
+<script>
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id);
+const phrase='Люблю домашних животных';
+let typeTimer=null,replyTimer=null,ready=false,busy=false;
+const show=id=>{$(id).hidden=false},hide=id=>{$(id).hidden=true};
+const move=id=>requestAnimationFrame(()=>$(id).scrollIntoView({block:'nearest',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}));
+function openThread(){hide('board');show('thread');window.scrollTo(0,0);try{history.replaceState(null,'','#chat')}catch(e){}}
+function back(){hide('thread');show('board');window.scrollTo(0,0);try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}}
+$('open-thread').addEventListener('click',openThread);
+$('back-board').addEventListener('click',back);
+function startTyping(){
+if(ready||busy)return;
+busy=true;hide('phrase-choice');show('compose-form');
+$('typed-phrase').textContent='';$('typing-caret').hidden=false;$('send-phrase').disabled=true;
+const letters=Array.from(phrase);
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let i=0;
+function next(){
+if(i<letters.length){$('typed-phrase').textContent+=letters[i++];typeTimer=setTimeout(next,reduced?0:65)}
+else{typeTimer=null;$('typing-caret').hidden=true;$('send-phrase').disabled=false;ready=true;busy=false}
+}
+next();
+}
+$('choose-phrase').addEventListener('click',startTyping);
+$('send-phrase').addEventListener('click',()=>{
+if(!ready||busy)return;
+ready=false;busy=true;
+hide('compose-zone');show('outgoing-block');show('typing-block');move('typing-block');
+replyTimer=setTimeout(()=>{
+replyTimer=null;hide('typing-block');show('reply-block');move('reply-block');busy=false;
+},2200);
+});
+$('restart').addEventListener('click',()=>{
+if(typeTimer!==null){clearTimeout(typeTimer);typeTimer=null}
+if(replyTimer!==null){clearTimeout(replyTimer);replyTimer=null}
+busy=false;ready=false;
+['outgoing-block','typing-block','reply-block','compose-form'].forEach(hide);
+['compose-zone','phrase-choice'].forEach(show);
+$('typed-phrase').textContent='';
+$('typing-caret').hidden=false;
+$('send-phrase').disabled=true;move('chat-history');
+});
+if(location.hash==='#chat')openThread();
+})();
+</script>
+</body>
+</html>
