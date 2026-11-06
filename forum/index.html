@@ -134,7 +134,7 @@ ready=false;busy=true;
 hide('compose-zone');show('outgoing-block');show('typing-block');move('typing-block');
 replyTimer=setTimeout(()=>{
 replyTimer=null;hide('typing-block');show('reply-block');move('reply-block');busy=false;
-},2200);
+},4200);
 });
 $('restart').addEventListener('click',()=>{
 if(typeTimer!==null){clearTimeout(typeTimer);typeTimer=null}
