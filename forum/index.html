@@ -36,6 +36,32 @@
 /* Final participant reply and dialog completion */
 .dialog-end-status{padding:19px;text-align:center;background:#122519;border-top:1px solid #45684a;color:var(--green);font:700 12px Consolas,monospace;letter-spacing:.13em}
 #final-outgoing{animation:up .35s ease-out}
+
+/* Persistent public community channel */
+.community-card{border-color:#6f9a74!important}
+.community-messages{padding:22px;min-height:210px;max-height:480px;overflow:auto;display:flex;flex-direction:column;gap:13px;scrollbar-color:#476b4a #122016}
+.community-loading,.community-empty{font:12px Consolas,monospace;color:#9fb99d;text-align:center;margin:auto;padding:35px 0}
+.community-message{max-width:min(86%,630px);min-width:0;border:1px solid #405f44;background:#182a1c;padding:12px 15px;border-radius:2px;overflow-wrap:anywhere}
+.community-message.mine{align-self:flex-end;background:#29472e;border-color:#658d66}
+.community-message:not(.mine){align-self:flex-start}
+.community-message-meta{display:flex;gap:12px;justify-content:space-between;align-items:center;color:#b1e490;font:11px Consolas,monospace;margin-bottom:8px}
+.community-message-meta time{color:#87a88d;font-size:10px}
+.community-message-body{font-size:13px;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere}
+.community-compose{padding:20px;border-top:1px solid #426347;background:#142219}
+.community-nickname-row,.community-form{display:flex;flex-direction:column;gap:9px}
+.community-nickname-row label,.community-form label{font:10px Consolas,monospace;letter-spacing:.09em;color:#b2d3a3}
+.nick-group{display:flex;gap:8px;margin-bottom:19px}
+#community-nick,#community-text{min-width:0;width:100%;background:#0b150f;border:1px solid #557759;color:#edf6e9;padding:12px 13px;border-radius:0;font:13px system-ui}
+#community-nick{font-family:Consolas,monospace}
+#community-nick:focus,#community-text:focus{outline:1px solid var(--green)}
+#community-text{resize:vertical;min-height:78px;max-height:200px}
+.nick-random{background:#223a26;border:1px solid #557759;color:var(--green);padding:8px 15px}
+.community-actions{display:flex;justify-content:space-between;align-items:center;gap:14px}
+.community-counter,.community-status,.community-notice{font:10px/1.6 Consolas,monospace;color:#90a994}
+.community-status{min-height:16px;margin:8px 0}
+.community-status.error{color:#eda598}
+.community-notice{margin:8px 0 0;color:#79977e}
+@media(max-width:500px){.community-messages{padding:12px;max-height:410px}.community-message{max-width:95%;padding:11px}.community-message-body{font-size:12px}.community-message-meta{font-size:10px}.community-compose{padding:13px}.community-actions .send-button{min-width:130px;justify-content:center}.community-nickname-row label,.community-form label{font-size:9px}}
 </style>
   
 </head>
@@ -53,21 +79,57 @@
     <section class="forum" aria-labelledby="forum-title">
       <div class="section-top">
         <div><div class="eyebrow subdued">/ INDEX / FORUM</div><h2 id="forum-title">Доска объявлений<span class="heading-prompt">_</span></h2><p>Некоторые разделы временно недоступны.</p></div>
-        <div class="section-counter"><b>01</b><span>ДОСТУПНО<br>ИЗ 04</span></div>
+        <div class="section-counter"><b>02</b><span>ДОСТУПНО<br>ИЗ 05</span></div>
       </div>
       <div class="forum-grid">
         <button id="open-thread" class="forum-card unlocked" type="button" aria-label="Открыть раздел Быстрый заработок">
-          <div class="card-corner">01 / 04 <span class="card-signal">● ДОСТУПНО</span></div>
+          <div class="card-corner">01 / 05 <span class="card-signal">● ДОСТУПНО</span></div>
           <div class="card-icon" aria-hidden="true">⌁</div>
           <div class="card-bottom"><div><span class="card-category">ОБЪЯВЛЕНИЯ / ДОСТУПНО</span><h3>Быстрый заработок</h3><p>Необычное предложение. Ищут напарников.</p></div><span class="card-arrow" aria-hidden="true">↗</span></div>
         </button>
-        <div class="forum-card locked" aria-disabled="true"><div class="card-corner">02 / 04 <span>× НЕТ СИГНАЛА</span></div><div class="card-icon" aria-hidden="true">⌑</div><div class="card-bottom"><div><span class="card-category">РАЗДЕЛ ЗАКРЫТ</span><h3>Выгодные сделки</h3><p>Нет доступа.</p></div><span class="card-lock" aria-hidden="true">╳</span></div></div>
-        <div class="forum-card locked" aria-disabled="true"><div class="card-corner">03 / 04 <span>× НЕТ СИГНАЛА</span></div><div class="card-icon" aria-hidden="true">⌑</div><div class="card-bottom"><div><span class="card-category">РАЗДЕЛ ЗАКРЫТ</span><h3>Скупка / продажа</h3><p>Нет доступа.</p></div><span class="card-lock" aria-hidden="true">╳</span></div></div>
-        <div class="forum-card locked" aria-disabled="true"><div class="card-corner">04 / 04 <span>× НЕТ СИГНАЛА</span></div><div class="card-icon" aria-hidden="true">⌑</div><div class="card-bottom"><div><span class="card-category">РАЗДЕЛ ЗАКРЫТ</span><h3>Обмен припасами</h3><p>Нет доступа.</p></div><span class="card-lock" aria-hidden="true">╳</span></div></div>
+        <button id="open-global-chat" class="forum-card unlocked community-card" type="button" aria-label="Открыть общий чат">
+          <div class="card-corner">02 / 05 <span class="card-signal">● ОБЩИЙ КАНАЛ</span></div>
+          <div class="card-icon" aria-hidden="true">▤</div>
+          <div class="card-bottom"><div><span class="card-category">СООБЩЕСТВО / ДОСТУПНО</span><h3>Общий чат</h3><p>Сообщения других пользователей сети.</p></div><span class="card-arrow" aria-hidden="true">↗</span></div>
+        </button>
+        <div class="forum-card locked" aria-disabled="true"><div class="card-corner">03 / 05 <span>× НЕТ СИГНАЛА</span></div><div class="card-icon" aria-hidden="true">⌑</div><div class="card-bottom"><div><span class="card-category">РАЗДЕЛ ЗАКРЫТ</span><h3>Выгодные сделки</h3><p>Нет доступа.</p></div><span class="card-lock" aria-hidden="true">╳</span></div></div>
+        <div class="forum-card locked" aria-disabled="true"><div class="card-corner">04 / 05 <span>× НЕТ СИГНАЛА</span></div><div class="card-icon" aria-hidden="true">⌑</div><div class="card-bottom"><div><span class="card-category">РАЗДЕЛ ЗАКРЫТ</span><h3>Скупка / продажа</h3><p>Нет доступа.</p></div><span class="card-lock" aria-hidden="true">╳</span></div></div>
+        <div class="forum-card locked" aria-disabled="true"><div class="card-corner">05 / 05 <span>× НЕТ СИГНАЛА</span></div><div class="card-icon" aria-hidden="true">⌑</div><div class="card-bottom"><div><span class="card-category">РАЗДЕЛ ЗАКРЫТ</span><h3>Обмен припасами</h3><p>Нет доступа.</p></div><span class="card-lock" aria-hidden="true">╳</span></div></div>
       </div>
       <div class="forum-foot"><span>↑ ВЫБЕРИТЕ ДОСТУПНУЮ ЗАПИСЬ</span><span>ЗАЩИЩЁННОЕ СОЕДИНЕНИЕ</span></div>
     </section>
     <footer class="page-footer">DEADNET // ВЫЖИВШИЕ НЕ ОСТАВЛЯЮТ СЛЕДОВ <span>© АРХИВНЫЙ УЗЕЛ 09</span></footer>
+  </main>
+
+  <main id="global-chat" class="screen page-shell thread-page" hidden>
+    <nav class="thread-nav"><button id="back-global-chat" type="button" class="back-button">← К РАЗДЕЛАМ</button><span class="thread-nav-id">/ COMMUNITY / 01</span></nav>
+    <section class="thread-hero">
+      <div class="eyebrow"><span class="tiny-led"></span> КАНАЛ СООБЩЕСТВА / ОБЩЕНИЕ</div>
+      <h1>Общий чат<span class="heading-prompt">_</span></h1>
+      <p>Здесь сообщения видны всем, кто откроет этот канал.</p>
+    </section>
+    <section class="chat-shell community-shell" aria-label="Общий чат DEADNET">
+      <div class="chat-header">
+        <div class="avatar" aria-hidden="true"><svg class="avatar-placeholder" width="25" height="25" viewBox="0 0 32 32" fill="none"><circle cx="11" cy="11" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="22" cy="12" r="3.5" stroke="currentColor" stroke-width="1.8"/><path d="M3 26c0-6 3-9 9-9s9 3 9 9M20 19c5 0 8 2.5 8 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <div class="chat-contact"><b>ОБЩИЙ КАНАЛ</b><span>ПОСЛЕДНИЕ СООБЩЕНИЯ</span></div>
+        <span class="chat-offline"><span class="bars" role="img" aria-label="Слабый сигнал"><i></i><i></i><i></i><i></i></span></span>
+      </div>
+      <div class="community-messages" id="community-messages" aria-live="polite"><p class="community-loading">Подключение к каналу…</p></div>
+      <div class="community-compose">
+        <div class="community-nickname-row">
+          <label for="community-nick">ВАШ НИКНЕЙМ</label>
+          <div class="nick-group"><input id="community-nick" maxlength="24" minlength="2" autocomplete="off" spellcheck="false" placeholder="USER_1234" /><button id="random-nick" type="button" class="nick-random" title="Случайный никнейм" aria-label="Сгенерировать другой никнейм">↻</button></div>
+        </div>
+        <form id="community-form" class="community-form">
+          <label for="community-text">НАПИСАТЬ СООБЩЕНИЕ</label>
+          <textarea id="community-text" maxlength="400" rows="3" placeholder="Введите сообщение…" required></textarea>
+          <div class="community-actions"><span id="community-counter" class="community-counter">0 / 400</span><button id="community-send" class="send-button" type="submit">ОТПРАВИТЬ ↗</button></div>
+        </form>
+        <p id="community-status" class="community-status" role="status"></p>
+        <p class="community-notice">Общий канал доступен посетителям сайта. Не публикуйте личные данные. Сообщения сохраняются.</p>
+      </div>
+    </section>
+    <footer class="page-footer">DEADNET // COMMUNITY <span>PUBLIC CHANNEL</span></footer>
   </main>
 
   <main id="thread" class="screen page-shell thread-page" hidden>
@@ -162,5 +224,86 @@ $('restart').addEventListener('click',()=>{
 if(location.hash==='#chat')openThread();
 })();
 </script>
-</body>
+<script>
+(()=>{
+'use strict';
+const endpoint="https://iqganejibxoapgvbnzse.supabase.co"/rest/v1/deadnet_messages;
+const key="sb_publishable_egBTR_r6mifhzAmCSxRGPw_LEHWSBY0";
+const el=id=>document.getElementById(id);
+let live=false,refreshInterval=null,submitting=false,lastSubmitted=0,previousSignature='';
+function randomNick(){const n=Math.floor(1000+Math.random()*9000);return 'USER_'+n;}
+function getNick(){try{const v=localStorage.getItem('deadnet_nick');return v&&v.length>=2?v:randomNick()}catch(e){return randomNick()}}
+function saveNick(s){try{localStorage.setItem('deadnet_nick',s)}catch(e){}}
+function visible(id,v){el(id).hidden=!v}
+function updateStatus(s,error=false){el('community-status').textContent=s;el('community-status').classList.toggle('error',error)}
+function formatDate(s){try{return new Date(s).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}catch(e){return ''}}
+function renderMessages(rows){
+ const mine=el('community-nick').value.trim();
+ const sig=JSON.stringify(rows);
+ if(sig===previousSignature)return;
+ previousSignature=sig;
+ const area=el('community-messages');
+ const nearBottom=area.scrollHeight-area.scrollTop-area.clientHeight<120;
+ area.replaceChildren();
+ if(!rows.length){const p=document.createElement('p');p.className='community-empty';p.textContent='Пока нет сообщений. Вы можете написать первым.';area.append(p);return}
+ for(const row of rows){
+   const article=document.createElement('article');article.className='community-message'+(row.nickname===mine?' mine':'');
+   const meta=document.createElement('div');meta.className='community-message-meta';
+   const name=document.createElement('strong');name.textContent=row.nickname;
+   const time=document.createElement('time');time.textContent=formatDate(row.created_at);
+   const body=document.createElement('div');body.className='community-message-body';body.textContent=row.body;
+   meta.append(name,time);article.append(meta,body);area.append(article);
+ }
+ if(nearBottom)area.scrollTop=area.scrollHeight;
+}
+async function fetchMessages(){
+ if(!live)return;
+ try{
+ const response=await fetch(endpoint+'?select=id,nickname,body,created_at&order=created_at.desc&limit=80',{headers:{apikey:key,Accept:'application/json'},cache:'no-store'});
+ if(!response.ok)throw new Error('Сервер недоступен ('+response.status+')');
+ const data=await response.json();
+ if(!Array.isArray(data))throw new Error('Некорректный ответ');
+ renderMessages(data.reverse());
+ if(!submitting)updateStatus('');
+ }catch(e){updateStatus('Соединение прервано. Повторяем подключение…',true);}
+}
+function enter(){
+ visible('board',false);visible('thread',false);visible('global-chat',true);
+ try{history.replaceState(null,'','#community')}catch(e){}
+ window.scrollTo(0,0);live=true;previousSignature='';
+ fetchMessages();refreshInterval=setInterval(fetchMessages,5000);
+}
+function leave(){
+ live=false;if(refreshInterval){clearInterval(refreshInterval);refreshInterval=null}
+ visible('global-chat',false);visible('board',true);window.scrollTo(0,0);
+ try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}
+}
+el('open-global-chat').addEventListener('click',enter);
+el('back-global-chat').addEventListener('click',leave);
+el('community-nick').value=getNick();
+el('community-nick').addEventListener('change',()=>{
+ const v=el('community-nick').value.trim();
+ if(v.length>=2&&v.length<=24&&!/[\u0000-\u001f\u007f]/.test(v)){saveNick(v);previousSignature='';fetchMessages()}
+ else updateStatus('Никнейм должен содержать 2–24 символа.',true);
+});
+el('random-nick').addEventListener('click',()=>{const n=randomNick();el('community-nick').value=n;saveNick(n);previousSignature='';fetchMessages()});
+el('community-text').addEventListener('input',()=>{el('community-counter').textContent=el('community-text').value.length+' / 400'});
+el('community-form').addEventListener('submit',async e=>{
+ e.preventDefault();if(submitting)return;
+ const nickname=el('community-nick').value.trim(),body=el('community-text').value.trim();
+ if(nickname.length<2||nickname.length>24||/[\u0000-\u001f\u007f]/.test(nickname)){updateStatus('Никнейм: от 2 до 24 символов.',true);return}
+ if(body.length<1||body.length>400){updateStatus('Сообщение должно быть от 1 до 400 символов.',true);return}
+ if(Date.now()-lastSubmitted<10000){updateStatus('Между сообщениями необходимо подождать 10 секунд.',true);return}
+ submitting=true;el('community-send').disabled=true;updateStatus('Отправка…');saveNick(nickname);
+ try{
+ const r=await fetch(endpoint,{method:'POST',headers:{apikey:key,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify({nickname,body})});
+ if(!r.ok){const err=await r.text();throw new Error(err.slice(0,150))}
+ lastSubmitted=Date.now();el('community-text').value='';el('community-counter').textContent='0 / 400';updateStatus('Сообщение отправлено.');
+ await fetchMessages();
+ }catch(e){updateStatus('Не удалось отправить сообщение. Проверьте соединение и повторите.',true)}
+ finally{submitting=false;el('community-send').disabled=false}
+});
+if(location.hash==='#community')enter();
+})();
+</script></body>
 </html>
