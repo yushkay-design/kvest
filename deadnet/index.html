@@ -4,12 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#080d0b">
-  <meta name="description" content="DEADNET — восстановленный архив подпольной сети. Последний сигнал.">
-  <meta property="og:title" content="DEADNET // Последний сигнал">
-  <meta property="og:description" content="Обнаружена восстановленная переписка. Получить доступ к архиву.">
-  <title>DEADNET — Последний сигнал</title>
-  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
-  <link rel="manifest" href="./manifest.webmanifest">
+  <meta name="description" content="DEADNET — подпольный форум.">
+  <meta property="og:title" content="DEADNET // Доска объявлений">
+  <meta property="og:description" content="Закрытая доска объявлений.">
+  <title>DEADNET // Доска объявлений</title>
   <link rel="stylesheet" href="./style.css">
   <script defer src="./app.js"></script>
 </head>
@@ -19,46 +17,27 @@
   <header class="site-bar">
     <div class="site-bar-inner">
       <div class="brand"><span class="brand-symbol" aria-hidden="true">✳</span><span>DEADNET</span><span class="brand-slash">//</span><span class="brand-muted">ARCHIVE NODE 09</span></div>
-      <div class="network-state"><span class="state-led"></span><span>СЕТЬ НЕДОСТУПНА</span></div>
+      <div class="network-state"><span class="bars" role="img" aria-label="Очень слабый сигнал"><i></i><i></i><i></i><i></i></span></div>
     </div>
   </header>
 
   <main id="board" class="screen page-shell">
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-left">
-        <div class="eyebrow"><span class="tiny-led"></span> ВОССТАНОВЛЕННАЯ КОПИЯ <span class="sep">//</span> ПАКЕТ 009</div>
-        <h1 id="hero-title"><span class="hero-overline">ПОСЛЕДНИЙ</span><span class="hero-main" data-text="СИГНАЛ">СИГНАЛ<span class="cursor-block" aria-hidden="true"></span></span></h1>
-        <p class="hero-description">Сеть давно замолчала.<br>Но некоторые сообщения так и не были удалены.</p>
-        <div class="hero-tags"><span>АРХИВ: СОХРАНЁН</span><span>ДОСТУП: ОГРАНИЧЕН</span><span>РЕЖИМ: OFFLINE</span></div>
-      </div>
-      <aside class="hero-monitor" aria-label="Состояние узла">
-        <div class="monitor-top"><span>SYS / NODE_09</span><span class="mono-green">● ACTIVE</span></div>
-        <div class="signal-art" aria-hidden="true">
-          <div class="ring ring-1"></div><div class="ring ring-2"></div><div class="ring ring-3"></div>
-          <div class="crosshair crosshair-h"></div><div class="crosshair crosshair-v"></div>
-          <div class="signal-center">09<span>▲</span></div>
-          <span class="signal-dot dot-one"></span><span class="signal-dot dot-two"></span>
-        </div>
-        <div class="monitor-lines"><div><span>ПЕРЕДАЧА</span><strong class="red">ПРЕРВАНА</strong></div><div><span>ЛОКАЛЬНЫЕ ДАННЫЕ</span><strong>ОБНАРУЖЕНЫ</strong></div><div><span>ВОССТАНОВЛЕНО</span><strong>01 / 04</strong></div></div>
-      </aside>
-    </section>
-
     <section class="forum" aria-labelledby="forum-title">
       <div class="section-top">
-        <div><div class="eyebrow subdued">/ INDEX / FORUM</div><h2 id="forum-title">Доска объявлений<span class="heading-prompt">_</span></h2><p>Часть разделов повреждена. Доступен один сохранённый канал.</p></div>
+        <div><div class="eyebrow subdued">/ INDEX / FORUM</div><h2 id="forum-title">Доска объявлений<span class="heading-prompt">_</span></h2><p>Некоторые разделы временно недоступны.</p></div>
         <div class="section-counter"><b>01</b><span>ДОСТУПНО<br>ИЗ 04</span></div>
       </div>
       <div class="forum-grid">
         <button id="open-thread" class="forum-card unlocked" type="button" aria-label="Открыть раздел Быстрый заработок">
-          <div class="card-corner">01 / 04 <span class="card-signal">● ЗАПИСЬ НАЙДЕНА</span></div>
+          <div class="card-corner">01 / 04 <span class="card-signal">● ДОСТУПНО</span></div>
           <div class="card-icon" aria-hidden="true">⌁</div>
           <div class="card-bottom"><div><span class="card-category">ОБЪЯВЛЕНИЯ / ДОСТУПНО</span><h3>Быстрый заработок</h3><p>Необычное предложение. Ищут напарников.</p></div><span class="card-arrow" aria-hidden="true">↗</span></div>
         </button>
-        <div class="forum-card locked" aria-disabled="true"><div class="card-corner">02 / 04 <span>× НЕТ СИГНАЛА</span></div><div class="card-icon" aria-hidden="true">⌑</div><div class="card-bottom"><div><span class="card-category">РАЗДЕЛ ПОВРЕЖДЁН</span><h3>Выгодные сделки</h3><p>Архив недоступен.</p></div><span class="card-lock" aria-hidden="true">╳</span></div></div>
-        <div class="forum-card locked" aria-disabled="true"><div class="card-corner">03 / 04 <span>× НЕТ СИГНАЛА</span></div><div class="card-icon" aria-hidden="true">⌑</div><div class="card-bottom"><div><span class="card-category">РАЗДЕЛ ПОВРЕЖДЁН</span><h3>Скупка / продажа</h3><p>Архив недоступен.</p></div><span class="card-lock" aria-hidden="true">╳</span></div></div>
-        <div class="forum-card locked" aria-disabled="true"><div class="card-corner">04 / 04 <span>× НЕТ СИГНАЛА</span></div><div class="card-icon" aria-hidden="true">⌑</div><div class="card-bottom"><div><span class="card-category">РАЗДЕЛ ПОВРЕЖДЁН</span><h3>Обмен припасами</h3><p>Архив недоступен.</p></div><span class="card-lock" aria-hidden="true">╳</span></div></div>
+        <div class="forum-card locked" aria-disabled="true"><div class="card-corner">02 / 04 <span>× НЕТ СИГНАЛА</span></div><div class="card-icon" aria-hidden="true">⌑</div><div class="card-bottom"><div><span class="card-category">РАЗДЕЛ ЗАКРЫТ</span><h3>Выгодные сделки</h3><p>Нет доступа.</p></div><span class="card-lock" aria-hidden="true">╳</span></div></div>
+        <div class="forum-card locked" aria-disabled="true"><div class="card-corner">03 / 04 <span>× НЕТ СИГНАЛА</span></div><div class="card-icon" aria-hidden="true">⌑</div><div class="card-bottom"><div><span class="card-category">РАЗДЕЛ ЗАКРЫТ</span><h3>Скупка / продажа</h3><p>Нет доступа.</p></div><span class="card-lock" aria-hidden="true">╳</span></div></div>
+        <div class="forum-card locked" aria-disabled="true"><div class="card-corner">04 / 04 <span>× НЕТ СИГНАЛА</span></div><div class="card-icon" aria-hidden="true">⌑</div><div class="card-bottom"><div><span class="card-category">РАЗДЕЛ ЗАКРЫТ</span><h3>Обмен припасами</h3><p>Нет доступа.</p></div><span class="card-lock" aria-hidden="true">╳</span></div></div>
       </div>
-      <div class="forum-foot"><span>↑ ВЫБЕРИТЕ ДОСТУПНУЮ ЗАПИСЬ</span><span>ЗАГРУЗКА ИЗ ЛОКАЛЬНОГО АРХИВА</span></div>
+      <div class="forum-foot"><span>↑ ВЫБЕРИТЕ ДОСТУПНУЮ ЗАПИСЬ</span><span>ЗАЩИЩЁННОЕ СОЕДИНЕНИЕ</span></div>
     </section>
     <footer class="page-footer">DEADNET // ВЫЖИВШИЕ НЕ ОСТАВЛЯЮТ СЛЕДОВ <span>© АРХИВНЫЙ УЗЕЛ 09</span></footer>
   </main>
@@ -66,14 +45,14 @@
   <main id="thread" class="screen page-shell thread-page" hidden>
     <nav class="thread-nav"><button id="back-board" type="button" class="back-button">← ВЕРНУТЬСЯ К РАЗДЕЛАМ</button><span class="thread-nav-id">/ FILE: 488-179</span></nav>
     <section class="thread-hero">
-      <div class="eyebrow"><span class="tiny-led"></span> АРХИВНАЯ ВЫГРУЗКА / ЛИЧНЫЕ СООБЩЕНИЯ</div>
-      <div class="thread-title-row"><div><h1>Быстрый заработок<span class="heading-prompt">_</span></h1><p>Незавершённая переписка была восстановлена из памяти узла.</p></div><div class="archive-stamp">ВЫГРУЗКА<br>009—17<br><span>RECOVERED</span></div></div>
+      <div class="eyebrow"><span class="tiny-led"></span> ЛИЧНЫЕ СООБЩЕНИЯ</div>
+      <div class="thread-title-row"><div><h1>Быстрый заработок<span class="heading-prompt">_</span></h1><p>Личное сообщение от неизвестного пользователя.</p></div></div>
     </section>
-    <section class="chat-shell" aria-label="Архив переписки">
-      <div class="chat-header"><div class="avatar" aria-hidden="true">48<span>8</span></div><div class="chat-contact"><b>ПОЛЬЗОВАТЕЛЬ 488-179</b><span>НЕИЗВЕСТНЫЙ ОТПРАВИТЕЛЬ / АРХИВ</span></div><span class="chat-offline"><span>●</span> OFFLINE</span></div>
+    <section class="chat-shell" aria-label="Личная переписка">
+      <div class="chat-header"><div class="avatar" aria-hidden="true">48<span>8</span></div><div class="chat-contact"><b>ПОЛЬЗОВАТЕЛЬ 488-179</b><span>НЕИЗВЕСТНЫЙ ОТПРАВИТЕЛЬ</span></div><span class="chat-offline"><span class="bars" role="img" aria-label="Очень слабый сигнал"><i></i><i></i><i></i><i></i></span></span></div>
       <div class="chat-history" id="chat-history" aria-live="polite">
-        <div class="day-separator"><span>ВОССТАНОВЛЕННОЕ СООБЩЕНИЕ // 001</span></div>
-        <article class="bubble incoming" aria-label="Сообщение пользователя 488-179"><div class="bubble-caption"><span class="sender-marker">●</span> 488-179 <span class="meta-right">СОХРАНЕНО</span></div><div class="bubble-text">Местный полицейский участок опустел. Все копы уехали в соседний штат
+        
+        <article class="bubble incoming" aria-label="Сообщение пользователя 488-179"><div class="bubble-caption"><span class="sender-marker">●</span> 488-179 <span class="meta-right">ОТПРАВЛЕНО</span></div><div class="bubble-text">Местный полицейский участок опустел. Все копы уехали в соседний штат
 решать проблему с зараженными новым вирусом, о котором говорят в
 новостях.
 Идеальный шанс пробраться на территорию, попасть в комнату, где они
@@ -83,11 +62,11 @@
 что все пройдет гладко и что там есть, чем поживиться.
 Если заинтересовало, напиши мне кодовую фразу "Люблю домашних
 животных".</div></article>
-        <div id="outgoing-block" class="outgoing-wrap" hidden><article class="bubble outgoing"><div class="bubble-caption">ВАШ ОТВЕТ <span class="meta-right">ВОССТАНОВЛЕНО</span></div><div class="bubble-text">Люблю домашних животных</div></article></div>
-        <div id="typing-block" class="typing-block" hidden><span class="sender-small">488-179 / ВОССТАНОВЛЕНИЕ</span><div class="typing-dots" aria-label="Загрузка сообщения"><i></i><i></i><i></i></div></div>
+        <div id="outgoing-block" class="outgoing-wrap" hidden><article class="bubble outgoing"><div class="bubble-caption">ВАШ ОТВЕТ <span class="meta-right">ОТПРАВЛЕНО</span></div><div class="bubble-text">Люблю домашних животных</div></article></div>
+        <div id="typing-block" class="typing-block" hidden><span class="sender-small">488-179 ПЕЧАТАЕТ</span><div class="typing-dots" aria-label="488-179 печатает"><i></i><i></i><i></i></div></div>
         <div id="reply-block" class="reply-block" hidden>
-          <div class="day-separator"><span>ВОССТАНОВЛЕННОЕ СООБЩЕНИЕ // 002</span></div>
-          <article class="bubble incoming" aria-label="Второе сообщение пользователя 488-179"><div class="bubble-caption"><span class="sender-marker">●</span> 488-179 <span class="meta-right">СОХРАНЕНО</span></div><div class="bubble-text">Мне приглянулась твоя кандидатура. Выбирай надежных напарников.
+          <div class="day-separator"><span>НОВОЕ СООБЩЕНИЕ</span></div>
+          <article class="bubble incoming" aria-label="Второе сообщение пользователя 488-179"><div class="bubble-caption"><span class="sender-marker">●</span> 488-179 <span class="meta-right">ОТПРАВЛЕНО</span></div><div class="bubble-text">Мне приглянулась твоя кандидатура. Выбирай надежных напарников.
 Буду ждать вас на проходной. Заходить на территорию СТРОГО ЗАПРЕЩЕНО!
 Поэтому дождись меня, есть план.
 Чтобы мне было проще узнать вас, на вопрос "Вы любители домашних
@@ -97,27 +76,12 @@
         </div>
       </div>
       <div id="compose-zone" class="interaction-zone">
-        <div class="zone-label"><span>01 / ОТВЕТ НА ОБЪЯВЛЕНИЕ</span><span>ЛОКАЛЬНАЯ РЕКОНСТРУКЦИЯ</span></div>
-        <div id="phrase-prompt"><p>Кодовая фраза обнаружена в сообщении. Восстановить ответ?</p><button id="type-phrase" type="button" class="primary-button">⌨ ВВЕСТИ КОДОВУЮ ФРАЗУ <span>↗</span></button></div>
-        <div id="compose-form" class="compose-form" hidden><div class="compose-input" aria-label="Набираемое сообщение"><span id="typed-phrase"></span><span id="typing-caret" class="typing-caret" aria-hidden="true">▋</span></div><button id="send-phrase" class="send-button" type="button" disabled>НАБОР... <span>↗</span></button></div>
-        <p class="interaction-note">Это восстановление архивной переписки. Сообщения никуда не отправляются.</p>
+        <div id="phrase-choice"><button id="choose-phrase" class="primary-button" type="button">Люблю домашних животных <span>↗</span></button></div>
+        <div id="compose-form" class="compose-form" hidden><div class="compose-input"><span id="typed-phrase"></span><span id="typing-caret" class="typing-caret" aria-hidden="true">▋</span></div><button id="send-phrase" class="send-button" type="button" disabled>ОТПРАВИТЬ ↗</button></div>
       </div>
-      <div id="verification" class="interaction-zone verification" hidden>
-        <div class="zone-label"><span>02 / ПРОВЕРКА ДОПУСКА</span><span>УРОВЕНЬ 01</span></div>
-        <div class="verification-heading"><span class="question-mark">?</span><div><h2>Проверка своих</h2><p>Ответьте так, как указано в сообщении.</p></div></div>
-        <div id="question-one"><div class="question-title">Вы любители домашних животных?</div><div class="choice-row"><button id="answer-yes" type="button" class="choice">Да <span>↗</span></button><button id="answer-no" type="button" class="choice">Нет <span>↗</span></button></div></div>
-        <div id="question-two" hidden><div class="answer-recap">✓ ПЕРВЫЙ ОТВЕТ ПРИНЯТ: ДА</div><div class="question-title">Какое именно КОНТАКТНОЕ животное вы предпочитаете?</div><div class="choice-row pet-row"><button class="choice pet-choice" type="button" data-pet="хомячок">Хомячок <span>↗</span></button><button class="choice pet-choice" type="button" data-pet="кот">Кот <span>↗</span></button><button class="choice pet-choice" type="button" data-pet="собака">Собака <span>↗</span></button></div></div>
-        <p id="answer-feedback" class="feedback" role="status" hidden>Код не совпадает. Попробуйте ещё раз.</p>
-      </div>
-      <div id="clearance" class="clearance" hidden>
-        <div class="clearance-upper"><span>DEADNET / ACCESS RECORD</span><span>№ 488-179</span></div><div class="clearance-success"><span class="success-icon">✓</span><span>ЛИЧНОСТЬ<br>ПОДТВЕРЖДЕНА</span></div><div class="clearance-line"></div>
-        <div class="clearance-cols"><div><small>КОДОВАЯ ФРАЗА</small><strong>Люблю домашних животных</strong></div><div><small>ОТВЕТЫ</small><strong>ДА / СОБАКА</strong></div><div><small>ТОЧКА ВСТРЕЧИ</small><strong>ПРОХОДНАЯ</strong></div></div>
-        <p class="clearance-note">Дождитесь сопровождающего. Не заходите на территорию самостоятельно.</p>
-      </div>
-      <div class="chat-bottom"><div><span class="small-red-dot">●</span> СВЯЗЬ С СЕТЬЮ ОТСУТСТВУЕТ <span class="hidden-mobile">/ ОТВЕТЫ ВОСПРОИЗВОДЯТСЯ ИЗ АРХИВА</span></div><button id="restart" type="button" class="restart-button" title="Пройти заново">↻ НАЧАТЬ ЗАНОВО</button></div>
+      <div class="chat-bottom"><span>PRIVATE MESSAGES // 488-179</span><button id="restart" type="button" class="restart-button">↻ НАЧАТЬ ЗАНОВО</button></div>
     </section>
-    <div class="real-instructions"><span class="instructions-label">/ ДЛЯ УЧАСТНИКОВ КВЕСТА</span><p>По прибытии напишите или позвоните организатору и ожидайте у шлагбаума. За вами придёт персонаж в образе. Следуйте указаниям организаторов.</p></div>
-    <footer class="page-footer">DEADNET // КОНЕЦ ПАКЕТА <span>ЛОКАЛЬНЫЙ АРХИВ</span></footer>
+    <footer class="page-footer">DEADNET // PRIVATE MESSAGES <span>ЗАЩИЩЁННОЕ СОЕДИНЕНИЕ</span></footer>
   </main>
 </body>
 </html>
